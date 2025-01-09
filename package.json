@@ -1,0 +1,22 @@
+{
+  "name": "layerg-ua-sdk",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "phidangnguyen <phidang0210@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "clean": "lerna run clean",
+    "hardhat-compile": "lerna run hardhat-compile",
+    "compile": "yarn hardhat-compile"
+  },
+  "devDependencies": {
+    "lerna": "^8.1.9",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@layerg-ua-sdk/aa-utils",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist artifacts cache src/types",
+    "lint-fix": "eslint -f unix . --fix",
+    "watch-tsc": "tsc -w --preserveWatchOutput",
+    "tsc": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^latest",
+    "rimraf": "^latest"
+  }
+}

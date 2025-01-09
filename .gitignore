@@ -1,0 +1,14 @@
+node_modules
+.env
+coverage
+coverage.json
+typechain
+
+cache
+# artifacts
+**/dist/
+/packages/aa-utils/src/types/
+yarn-error.log
+.vscode
+**/.env
+**/typechain-types

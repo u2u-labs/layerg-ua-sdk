@@ -1,0 +1,15 @@
+{
+  "name": "@layerg-ua-sdk/aa-validation",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "typescript": "^latest",
+    "rimraf": "^latest"
+  }
+}
