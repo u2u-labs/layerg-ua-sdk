@@ -1,13 +1,16 @@
 import { BigNumber, BigNumberish } from 'ethers'
-import {
-  SimpleAccount,
-  SimpleAccount__factory, SimpleAccountFactory,
-  SimpleAccountFactory__factory
-} from '@layerg-ua-sdk/aa-utils'
-
 import { arrayify } from 'ethers/lib/utils'
 import { Signer } from '@ethersproject/abstract-signer'
 import { BaseApiParams, BaseAccountAPI, FactoryParams } from './BaseAccountAPI'
+import {
+  SimpleAccount,
+  SimpleAccountFactory,
+} from "@layerg-ua-sdk/aa-smc/typechain-types/contracts/samples"
+
+import {
+  SimpleAccount__factory,
+  SimpleAccountFactory__factory
+} from "@layerg-ua-sdk/aa-smc/typechain-types/factories/contracts/samples"
 
 /**
  * constructor params, added no top of base params:
@@ -42,14 +45,14 @@ export class SimpleAccountAPI extends BaseAccountAPI {
 
   factory?: SimpleAccountFactory
 
-  constructor (params: SimpleAccountApiParams) {
+  constructor(params: SimpleAccountApiParams) {
     super(params)
     this.factoryAddress = params.factoryAddress
     this.owner = params.owner
     this.index = BigNumber.from(params.index ?? 0)
   }
 
-  async _getAccountContract (): Promise<SimpleAccount> {
+  async _getAccountContract(): Promise<SimpleAccount> {
     if (this.accountContract == null) {
       this.accountContract = SimpleAccount__factory.connect(await this.getAccountAddress(), this.provider)
     }
@@ -60,7 +63,7 @@ export class SimpleAccountAPI extends BaseAccountAPI {
    * return the value to put into the "initCode" field, if the account is not yet deployed.
    * this value holds the "factory" address, followed by this account's information
    */
-  async getFactoryData (): Promise<FactoryParams | null> {
+  async getFactoryData(): Promise<FactoryParams | null> {
     if (this.factory == null) {
       if (this.factoryAddress != null && this.factoryAddress !== '') {
         this.factory = SimpleAccountFactory__factory.connect(this.factoryAddress, this.provider)
@@ -74,7 +77,7 @@ export class SimpleAccountAPI extends BaseAccountAPI {
     }
   }
 
-  async getNonce (): Promise<BigNumber> {
+  async getNonce(): Promise<BigNumber> {
     if (await this.checkAccountPhantom()) {
       return BigNumber.from(0)
     }
@@ -88,7 +91,7 @@ export class SimpleAccountAPI extends BaseAccountAPI {
    * @param value
    * @param data
    */
-  async encodeExecute (target: string, value: BigNumberish, data: string): Promise<string> {
+  async encodeExecute(target: string, value: BigNumberish, data: string): Promise<string> {
     const accountContract = await this._getAccountContract()
     return accountContract.interface.encodeFunctionData(
       'execute',
@@ -99,7 +102,7 @@ export class SimpleAccountAPI extends BaseAccountAPI {
       ])
   }
 
-  async signUserOpHash (userOpHash: string): Promise<string> {
+  async signUserOpHash(userOpHash: string): Promise<string> {
     return await this.owner.signMessage(arrayify(userOpHash))
   }
 }

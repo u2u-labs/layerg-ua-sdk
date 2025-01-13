@@ -5,7 +5,9 @@ import { SimpleAccountAPI } from './SimpleAccountAPI'
 import { ERC4337EthersProvider } from './ERC4337EthersProvider'
 import { HttpRpcClient } from './HttpRpcClient'
 import { Signer } from '@ethersproject/abstract-signer'
-import { DeterministicDeployer, IEntryPoint__factory, SimpleAccountFactory__factory } from '@layerg-ua-sdk/aa-utils'
+import { IEntryPoint__factory } from '@layerg-ua-sdk/aa-smc/typechain-types/factories/contracts/interfaces'
+import { SimpleAccountFactory__factory } from '@layerg-ua-sdk/aa-smc/typechain-types/factories/contracts/samples'
+import { DeterministicDeployer } from '@layerg-ua-sdk/aa-utils'
 
 /**
  * wrap an existing provider to tunnel requests through Account Abstraction.
@@ -13,7 +15,7 @@ import { DeterministicDeployer, IEntryPoint__factory, SimpleAccountFactory__fact
  * @param config see ClientConfig for more info
  * @param originalSigner use this signer as the owner. of this wallet. By default, use the provider's signer
  */
-export async function wrapProvider (
+export async function wrapSimpleProvider (
   originalProvider: JsonRpcProvider,
   config: ClientConfig,
   originalSigner: Signer = originalProvider.getSigner()

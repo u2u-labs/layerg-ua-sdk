@@ -13,7 +13,10 @@
     "test": "lerna run test",
     "clean": "lerna run clean",
     "hardhat-compile": "lerna run hardhat-compile",
-    "compile": "yarn hardhat-compile"
+    "compile": "yarn hardhat-compile",
+    "clear": "lerna run clear",
+    "clear:libs": "lerna run clear-libs"
+
   },
   "devDependencies": {
     "lerna": "^8.1.9",

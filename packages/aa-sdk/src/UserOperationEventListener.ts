@@ -2,7 +2,7 @@ import { BigNumberish, Event } from 'ethers'
 import { TransactionReceipt } from '@ethersproject/providers'
 import { defaultAbiCoder } from 'ethers/lib/utils'
 import Debug from 'debug'
-import { IEntryPoint } from '@layerg-ua-sdk/aa-utils'
+import { IEntryPoint } from '@layerg-ua-sdk/aa-smc/typechain-types/contracts/interfaces'
 
 const debug = Debug('aa.listener')
 

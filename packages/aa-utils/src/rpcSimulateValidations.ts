@@ -1,7 +1,9 @@
-import { packUserOp, UserOperation } from './ERC4337Utils'
-import EntryPointSimulationsJson from '@account-abstraction/contracts/artifacts/EntryPointSimulations.json'
+import { packUserOp } from './ERC4337Utils'
+import { UserOperation } from './interfaces/UserOperation'
+import { IEntryPointSimulations } from '@layerg-ua-sdk/aa-smc/typechain-types/contracts/core/EntryPointSimulations'
+import EntryPointSimulationsJson from '@layerg-ua-sdk/aa-smc/artifacts/contracts/core/EntryPointSimulations.sol/EntryPointSimulations.json'
+import { EntryPointSimulations__factory } from "@layerg-ua-sdk/aa-smc/typechain-types/factories/contracts/core"
 
-import { EntryPointSimulations__factory, IEntryPointSimulations } from './types'
 
 export const entryPointSimulationsInterface = EntryPointSimulations__factory.createInterface()
 

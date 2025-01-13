@@ -5,8 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "clean": "rimraf dist"
+    "clear": "rm -rf dist",
+    "clear-libs": "rm -rf node_modules",
+    "build": "tsc"
   },
   "devDependencies": {
     "typescript": "^latest",
@@ -14,7 +15,13 @@
   },
   "dependencies": {
     "@layerg-ua-sdk/aa-utils": "^1.0.0",
+    "@layerg-ua-sdk/aa-smc": "^1.0.0",
+    "@ethersproject/abstract-signer": "^5.7.0",
+    "@ethersproject/networks": "^5.7.0",
+    "@ethersproject/properties": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
     "@types/debug": "^4.1.7",
-    "debug": "^4.3.4"
+    "debug": "^4.3.4",
+    "ethers": "^5.7.0"
   }
 }

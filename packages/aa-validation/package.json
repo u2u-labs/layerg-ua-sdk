@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf dist"
+    "clear": "rm -rf dist",
+    "clear-libs": "rm -rf node_modules"
   },
   "devDependencies": {
     "typescript": "^latest",

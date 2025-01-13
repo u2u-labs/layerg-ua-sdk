@@ -10,5 +10,9 @@ cache
 /packages/aa-utils/src/types/
 yarn-error.log
 .vscode
-**/.env
-**/typechain-types
+**/**/.env
+**/**/typechain-types
+
+/packages/aa-smc/typechain-types
+/packages/aa-smc/artifacts
+/packages/aa-smc/.env

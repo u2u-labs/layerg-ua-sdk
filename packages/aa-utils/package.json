@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf dist artifacts cache src/types",
+    "clear": "rm -rf dist",
+    "clear-libs": "rm -rf node_modules",
     "lint-fix": "eslint -f unix . --fix",
     "watch-tsc": "tsc -w --preserveWatchOutput",
     "tsc": "tsc"
@@ -14,5 +15,19 @@
   "devDependencies": {
     "typescript": "^latest",
     "rimraf": "^latest"
+  },
+  "dependencies": {
+    "@layerg-ua-sdk/aa-smc": "^1.0.0",
+    "@ethereumjs/util": "10.0.0-alpha.1",
+    "@ethersproject/abi": "^5.7.0",
+    "@ethersproject/abstract-provider": "^5.7.0",
+    "@ethersproject/abstract-signer": "^5.7.0",
+    "@ethersproject/keccak256": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
+    "@openzeppelin/contracts": "^5.0.1",
+    "debug": "^4.3.4",
+    "ethereumjs-util": "^7.1.5",
+    "ethers": "^5.7.0",
+    "rlp": "^3.0.0"
   }
 }
