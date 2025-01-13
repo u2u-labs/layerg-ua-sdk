@@ -2,7 +2,10 @@ import { BytesLike, defaultAbiCoder, hexConcat, hexZeroPad, hexlify, isHexString
 import { UserOperation } from "./interfaces/UserOperation"
 import { PackedUserOperation } from "./Utils"
 import { BigNumber, BigNumberish, ethers, logger } from "ethers"
+import Debug from 'debug'
 
+
+const debug = Debug('aa.utils')
 export const AddressZero = ethers.constants.AddressZero
 
 export const maxUint48 = (2 ** 48) - 1
@@ -180,4 +183,35 @@ export function hexDataSlice(data: BytesLike, offset: number, endOffset?: number
   }
 
   return "0x" + data.substring(offset);
+}
+
+const ErrorSig = keccak256(Buffer.from('Error(string)')).slice(0, 10) // 0x08c379a0
+const FailedOpSig = keccak256(Buffer.from('FailedOp(uint256,string)')).slice(0, 10) // 0x220266b6
+
+interface DecodedError {
+  message: string
+  opIndex?: number
+}
+
+/**
+ * decode bytes thrown by revert as Error(message) or FailedOp(opIndex,paymaster,message)
+ */
+export function decodeErrorReason (error: string | Error): DecodedError | undefined {
+  if (typeof error !== 'string') {
+    const err = error as any
+    error = (err.data ?? err.error.data) as string
+  }
+
+  debug('decoding', error)
+  if (error.startsWith(ErrorSig)) {
+    const [message] = defaultAbiCoder.decode(['string'], '0x' + error.substring(10))
+    return { message }
+  } else if (error.startsWith(FailedOpSig)) {
+    let [opIndex, message] = defaultAbiCoder.decode(['uint256', 'string'], '0x' + error.substring(10))
+    message = `FailedOp: ${message as string}`
+    return {
+      message,
+      opIndex
+    }
+  }
 }

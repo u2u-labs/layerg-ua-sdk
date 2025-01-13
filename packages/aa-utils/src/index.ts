@@ -1,8 +1,11 @@
 export { UserOperation } from './interfaces/UserOperation'
 export { OperationBase } from './interfaces/OperationBase'
-export { EIP7702Authorization } from './interfaces/EIP7702Authorization'
+export { EIP7702Authorization, getEip7702AuthorizationSigner } from './interfaces/EIP7702Authorization'
+export { OperationRIP7560 } from './interfaces/OperationRIP7560'
+
 export * from './ERC4337Utils'
 export * from './DeterministicDeployer'
-// export * from './decodeRevertReason'
+export * from './decodeRevertReason'
 export * from './Utils'
 export * from './rpcSimulateValidations'
+export * from './soltypes'

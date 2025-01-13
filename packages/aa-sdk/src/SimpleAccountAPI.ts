@@ -6,11 +6,7 @@ import {
   SimpleAccount,
   SimpleAccountFactory,
 } from "@layerg-ua-sdk/aa-smc/typechain-types/contracts/samples"
-
-import {
-  SimpleAccount__factory,
-  SimpleAccountFactory__factory
-} from "@layerg-ua-sdk/aa-smc/typechain-types/factories/contracts/samples"
+import { SimpleAccountFactory__factory, SimpleAccount__factory } from '@layerg-ua-sdk/aa-utils'
 
 /**
  * constructor params, added no top of base params:

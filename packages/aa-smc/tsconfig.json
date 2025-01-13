@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "../",
+    "rootDir": ".",
     "resolveJsonModule": true,
     "outDir": "./dist",
     "target": "ESNext",
@@ -10,8 +10,9 @@
     "esModuleInterop": true
   },
   "include": [
-    "src/**/*",
-    "typechain-types/**/*"
+    "src",
+    "typechain-types",
+    "artifacts"
   ],
   "exclude": [
     "node_modules",

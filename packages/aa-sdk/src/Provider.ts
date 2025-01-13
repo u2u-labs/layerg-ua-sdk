@@ -5,9 +5,7 @@ import { SimpleAccountAPI } from './SimpleAccountAPI'
 import { ERC4337EthersProvider } from './ERC4337EthersProvider'
 import { HttpRpcClient } from './HttpRpcClient'
 import { Signer } from '@ethersproject/abstract-signer'
-import { IEntryPoint__factory } from '@layerg-ua-sdk/aa-smc/typechain-types/factories/contracts/interfaces'
-import { SimpleAccountFactory__factory } from '@layerg-ua-sdk/aa-smc/typechain-types/factories/contracts/samples'
-import { DeterministicDeployer } from '@layerg-ua-sdk/aa-utils'
+import { DeterministicDeployer, IEntryPoint__factory, SimpleAccountFactory__factory } from '@layerg-ua-sdk/aa-utils'
 
 /**
  * wrap an existing provider to tunnel requests through Account Abstraction.

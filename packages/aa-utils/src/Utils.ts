@@ -2,10 +2,12 @@
 import {
     PackedUserOperationStruct
 } from "@layerg-ua-sdk/aa-smc/typechain-types/contracts/core/EntryPoint"
-import { BigNumber, BigNumberish, ethers } from "ethers"
+import { BigNumber, BigNumberish, ContractFactory, ethers } from "ethers"
 import { UserOperation } from "./interfaces/UserOperation"
 import { OperationBase } from "./interfaces/OperationBase"
 import { OperationRIP7560 } from "./interfaces/OperationRIP7560"
+import { BytesLike, Result, hexZeroPad, hexlify } from "ethers/lib/utils"
+import { Provider } from "@ethersproject/providers"
 
 export interface StakeInfo {
     addr: string
@@ -109,24 +111,77 @@ export function getPackedNonce(userOp: OperationBase): BigNumber {
     return bigNumberNonce
 }
 
-export function tostr (s: BigNumberish): string {
+export function tostr(s: BigNumberish): string {
     return BigNumber.from(s).toString()
 }
 
 // verify that either address field exist along with "mustFields",
 // or address field is missing, and none of the must (or optional) field also exists
-export function requireAddressAndFields (userOp: OperationBase, addrField: string, mustFields: string[], optionalFields: string[] = []): void {
+export function requireAddressAndFields(userOp: OperationBase, addrField: string, mustFields: string[], optionalFields: string[] = []): void {
     const op = userOp as any
     const addr = op[addrField]
     if (addr == null) {
-      const unexpected = Object.entries(op)
-        .filter(([name, value]) => value != null && (mustFields.includes(name) || optionalFields.includes(name)))
-      requireCond(unexpected.length === 0,
-        `no ${addrField} but got ${unexpected.join(',')}`, ValidationErrors.InvalidFields)
+        const unexpected = Object.entries(op)
+            .filter(([name, value]) => value != null && (mustFields.includes(name) || optionalFields.includes(name)))
+        requireCond(unexpected.length === 0,
+            `no ${addrField} but got ${unexpected.join(',')}`, ValidationErrors.InvalidFields)
     } else {
-      requireCond(addr.match(/^0x[a-f0-9]{10,40}$/i), `invalid ${addrField}`, ValidationErrors.InvalidFields)
-      const missing = mustFields.filter(name => op[name] == null)
-      requireCond(missing.length === 0,
-        `got ${addrField} but missing ${missing.join(',')}`, ValidationErrors.InvalidFields)
+        requireCond(addr.match(/^0x[a-f0-9]{10,40}$/i), `invalid ${addrField}`, ValidationErrors.InvalidFields)
+        const missing = mustFields.filter(name => op[name] == null)
+        requireCond(missing.length === 0,
+            `got ${addrField} but missing ${missing.join(',')}`, ValidationErrors.InvalidFields)
     }
-  }
+}
+
+/**
+* create a dictionary object with given keys
+* @param keys the property names of the returned object
+* @param mapper mapper from key to property value
+* @param filter if exists, must return true to add keys
+*/
+export function mapOf<T>(keys: Iterable<string>, mapper: (key: string) => T, filter?: (key: string) => boolean): {
+    [key: string]: T
+} {
+    const ret: { [key: string]: T } = {}
+    for (const key of keys) {
+        if (filter == null || filter(key)) {
+            ret[key] = mapper(key)
+        }
+    }
+    return ret
+}
+
+export function toBytes32(b: BytesLike | number): string {
+    return hexZeroPad(hexlify(b).toLowerCase(), 32)
+}
+
+
+// extract address from initCode or paymasterAndData
+export function getAddr(data?: BytesLike): string | undefined {
+    if (data == null) {
+        return undefined
+    }
+    const str = hexlify(data)
+    if (str.length >= 42) {
+        return str.slice(0, 42)
+    }
+    return undefined
+}
+
+
+/**
+ * run the constructor of the given type as a script: it is expected to revert with the script's return values.
+ * @param provider provider to use fo rthe call
+ * @param c - contract factory of the script class
+ * @param ctrParams constructor parameters
+ * @return an array of arguments of the error
+ * example usasge:
+ *     hashes = await runContractScript(provider, new GetUserOpHashes__factory(), [entryPoint.address, userOps]).then(ret => ret.userOpHashes)
+ */
+export async function runContractScript<T extends ContractFactory>(provider: Provider, c: T, ctrParams: Parameters<T['getDeployTransaction']>): Promise<Result> {
+    const tx = c.getDeployTransaction(...ctrParams)
+    const ret = await provider.call(tx)
+    const parsed = ContractFactory.getInterface(c.interface).parseError(ret)
+    if (parsed == null) throw new Error('unable to parse script (error) response: ' + ret)
+    return parsed.args
+}

@@ -1,14 +1,8 @@
 import { Provider } from "@ethersproject/providers"
 import { PaymasterAPI } from "./PaymasterAPI"
-import {
-    IEntryPoint__factory
-} from "@layerg-ua-sdk/aa-smc/typechain-types/factories/contracts/interfaces"
-import {
-    IEntryPoint
-} from "@layerg-ua-sdk/aa-smc/typechain-types/contracts/interfaces"
 import { BigNumber, BigNumberish, BytesLike, ethers } from "ethers"
 import { defaultAbiCoder } from "ethers/lib/utils"
-import { UserOperation, encodeUserOp, getUserOpHash } from "@layerg-ua-sdk/aa-utils"
+import { IEntryPoint, IEntryPoint__factory, UserOperation, encodeUserOp, getUserOpHash } from "@layerg-ua-sdk/aa-utils"
 import { TransactionDetailsForUserOp } from "./TransactionDetailsForUserOp"
 
 

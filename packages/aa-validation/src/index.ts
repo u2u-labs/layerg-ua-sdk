@@ -1,3 +1,2 @@
-export const hello = () => {
-    return 'Hello from example package';
-};
+export * from './ValidationManager'
+export * from './IValidationManager'
