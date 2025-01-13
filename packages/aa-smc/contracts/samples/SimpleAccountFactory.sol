@@ -29,7 +29,7 @@ contract SimpleAccountFactory {
      * This method returns an existing account address so that entryPoint.getSenderAddress() would work even after account creation
      */
     function createAccount(address owner,uint256 salt) public returns (SimpleAccount ret) {
-        require(msg.sender == address(senderCreator), "only callable from SenderCreator");
+        // require(msg.sender == address(senderCreator), "only callable from SenderCreator");
         address addr = getAddress(owner, salt);
         uint256 codeSize = addr.code.length;
         if (codeSize > 0) {

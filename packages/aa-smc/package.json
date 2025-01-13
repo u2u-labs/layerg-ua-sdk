@@ -9,6 +9,7 @@
     "build": "tsc",
     "clear-libs": "rm -rf node_modules",
     "hardhat-compile": "npx hardhat compile",
+    "compile": "npx hardhat compile",
     "test": "npx hardhat test",
     "deploy": "npx hardhat run scripts/deploy.ts --network nebulas",
     "attack": "npx hardhat run scripts/attack.ts --network nebulas",

@@ -1,4 +1,4 @@
-export { BaseAccountAPI } from './BaseAccountAPI'
+export * from './BaseAccountAPI'
 export { PaymasterAPI } from './PaymasterAPI'
 export { ERC4337EthersSigner } from './ERC4337EthersSigner'
 export { ERC4337EthersProvider } from './ERC4337EthersProvider'
