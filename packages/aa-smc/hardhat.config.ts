@@ -2,6 +2,7 @@ import "@nomiclabs/hardhat-ethers";
 require('dotenv').config()
 require("hardhat-contract-sizer");
 import "@typechain/hardhat";
+import "@nomiclabs/hardhat-etherscan";
 
 const config: any = {
   solidity: {

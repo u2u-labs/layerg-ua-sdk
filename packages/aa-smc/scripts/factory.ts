@@ -3,7 +3,7 @@ import hre from "hardhat";
 
 async function main() {
   let tx;
-  const _entryPoint = "0x21c109Ef937FD9e1bFb18cD96393aC99f0165232"
+  const _entryPoint = "0xd46FF3b330Ee924E4457fbe1c1ed7db5646f023C"
 
   const SimpleAccountFactory = await ethers.getContractFactory("SimpleAccountFactory");
 
@@ -12,14 +12,14 @@ async function main() {
   console.log(`SimpleAccountFactory deployed to ${simpleAccountFactory.address}`);
   const simpleAccountFactoryContract = simpleAccountFactory.address
 
-  // try {
-  //   await hre.run("verify:verify", {
-  //     address: simpleAccountFactoryContract,
-  //     constructorArguments: [_entryPoint],
-  //   });
-  // } catch (error) {
-  //   console.log('SimpleAccountFactory: ', error);
-  // }
+  try {
+    await hre.run("verify:verify", {
+      address: simpleAccountFactoryContract,
+      constructorArguments: [_entryPoint],
+    });
+  } catch (error) {
+    console.log('SimpleAccountFactory: ', error);
+  }
 }
 
 // We recommend this pattern to be able to use async/await everywhere
