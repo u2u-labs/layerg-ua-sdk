@@ -49,6 +49,14 @@ export {
     GAccount__factory
 } from '../typechain-types/factories/contracts/g-account'
 
+export {
+    SingletonPaymaster
+} from '../typechain-types/contracts/singleton-paymaster'
+
+export {
+    SingletonPaymaster__factory
+} from '../typechain-types/factories/contracts/singleton-paymaster'
+
 export type ValidationResultStructOutput = IEntryPointSimulations.ValidationResultStructOutput
 export type ExecutionResultStructOutput = IEntryPointSimulations.ExecutionResultStructOutput
 export type StakeInfoStructOutput = IStakeManager.StakeInfoStructOutput
@@ -58,3 +66,5 @@ import EntryPointSimulationsJson from '../artifacts/contracts/core/EntryPointSim
 export {
     EntryPointSimulationsJson
 }
+
+export { PackedUserOperationStruct } from '../typechain-types/contracts/core/EntryPoint'

@@ -18,7 +18,8 @@
     "deploy-paymaster": "npx hardhat run scripts/paymaster.ts --network nebulas",
     "deploy-entrypoint": "npx hardhat run scripts/entrypoint.ts --network nebulas",
     "deploy-simple-factory": "npx hardhat run scripts/simple-factory.ts --network nebulas",
-    "deploy-g-factory": "npx hardhat run scripts/g-factory.ts --network nebulas"
+    "deploy-g-factory": "npx hardhat run scripts/g-factory.ts --network nebulas",
+    "deploy-s-paymaster": "npx hardhat run scripts/singleton-paymaster.ts --network nebulas"
   },
   "devDependencies": {
     "typescript": "^latest",

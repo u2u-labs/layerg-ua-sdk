@@ -50,6 +50,15 @@ export {
   IStakeManager
 } from '@layerg-ua-sdk/aa-smc/dist/typechain-types/contracts/interfaces'
 
+
+export {
+  SingletonPaymaster
+} from '@layerg-ua-sdk/aa-smc/dist/typechain-types/contracts/singleton-paymaster'
+
+export {
+  SingletonPaymaster__factory
+} from '@layerg-ua-sdk/aa-smc/dist/typechain-types/factories/contracts/singleton-paymaster'
+
 export type ValidationResultStructOutput = IEntryPointSimulations.ValidationResultStructOutput
 export type ExecutionResultStructOutput = IEntryPointSimulations.ExecutionResultStructOutput
 export type StakeInfoStructOutput = IStakeManager.StakeInfoStructOutput
@@ -59,3 +68,5 @@ import EntryPointSimulationsJson from '@layerg-ua-sdk/aa-smc/artifacts/contracts
 export {
   EntryPointSimulationsJson
 }
+
+export { PackedUserOperationStruct } from '@layerg-ua-sdk/aa-smc/typechain-types/contracts/core/EntryPoint'
