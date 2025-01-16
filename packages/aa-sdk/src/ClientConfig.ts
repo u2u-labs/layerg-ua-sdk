@@ -20,5 +20,8 @@ export interface ClientConfig {
      * if set, call just before signing.
      */
     paymasterAPI?: PaymasterAPI
+
+    factoryAddress?: string
+    
   }
   

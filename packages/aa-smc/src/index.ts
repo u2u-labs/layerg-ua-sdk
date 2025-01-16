@@ -38,6 +38,17 @@ export {
     IStakeManager
 } from '../typechain-types/contracts/interfaces'
 
+
+export {
+    GAccount,
+    GAccountFactory
+} from '../typechain-types/contracts/g-account'
+
+export {
+    GAccountFactory__factory,
+    GAccount__factory
+} from '../typechain-types/factories/contracts/g-account'
+
 export type ValidationResultStructOutput = IEntryPointSimulations.ValidationResultStructOutput
 export type ExecutionResultStructOutput = IEntryPointSimulations.ExecutionResultStructOutput
 export type StakeInfoStructOutput = IStakeManager.StakeInfoStructOutput

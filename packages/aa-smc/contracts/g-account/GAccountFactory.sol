@@ -8,7 +8,7 @@ import "./upgradeable/ContractMetadata.sol";
 import "./upgradeable/PermissionsEnumerable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-abstract contract GAccountFactory is GBaseAccountFactory, ContractMetadata, PermissionsEnumerable {
+contract GAccountFactory is GBaseAccountFactory, ContractMetadata, PermissionsEnumerable {
 
     constructor(
         address _defaultAdmin,

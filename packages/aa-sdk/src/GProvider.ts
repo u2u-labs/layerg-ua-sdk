@@ -1,11 +1,10 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
-
 import { ClientConfig } from './ClientConfig'
-import { SimpleAccountAPI } from './SimpleAccountAPI'
 import { ERC4337EthersProvider } from './ERC4337EthersProvider'
 import { HttpRpcClient } from './HttpRpcClient'
 import { Signer } from '@ethersproject/abstract-signer'
-import { DeterministicDeployer, IEntryPoint__factory, SimpleAccountFactory__factory } from '@layerg-ua-sdk/aa-utils'
+import { IEntryPoint__factory } from '@layerg-ua-sdk/aa-utils'
+import { GAccountAPI, GAccountApiParams } from './GAccountAPI'
 
 /**
  * wrap an existing provider to tunnel requests through Account Abstraction.
@@ -13,22 +12,22 @@ import { DeterministicDeployer, IEntryPoint__factory, SimpleAccountFactory__fact
  * @param config see ClientConfig for more info
  * @param originalSigner use this signer as the owner. of this wallet. By default, use the provider's signer
  */
-export async function wrapSimpleProvider (
+export async function wrapGProvider (
   originalProvider: JsonRpcProvider,
   config: ClientConfig,
   originalSigner: Signer = originalProvider.getSigner()
 ): Promise<ERC4337EthersProvider> {
   const entryPoint = IEntryPoint__factory.connect(config.entryPointAddress, originalProvider)
-  // Initial SimpleAccount instance is not deployed and exists just for the interface
-  const detDeployer = new DeterministicDeployer(originalProvider)
-  const SimpleAccountFactory = await detDeployer.deterministicDeploy(new SimpleAccountFactory__factory(), 0, [entryPoint.address])
-  const smartAccountAPI = new SimpleAccountAPI({
-    provider: originalProvider,
-    entryPointAddress: entryPoint.address,
+  const gAccountconfig: GAccountApiParams = {
     owner: originalSigner,
-    factoryAddress: SimpleAccountFactory,
-    paymasterAPI: config.paymasterAPI
-  })
+    provider: originalProvider,
+    entryPointAddress: config.entryPointAddress,
+    accountAddress: config.walletAddress,
+    paymasterAPI: config.paymasterAPI,
+    factoryAddress: config.factoryAddress
+  }
+  const gAccountAPI = await new GAccountAPI(gAccountconfig)
+
   const chainId = await originalProvider.getNetwork().then(net => net.chainId)
   const httpRpcClient = new HttpRpcClient(config.bundlerUrl, config.entryPointAddress, chainId)
   return await new ERC4337EthersProvider(
@@ -38,6 +37,6 @@ export async function wrapSimpleProvider (
     originalProvider,
     httpRpcClient,
     entryPoint,
-    smartAccountAPI
+    gAccountAPI
   ).init()
 }

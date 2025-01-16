@@ -5,7 +5,7 @@ export { ERC4337EthersProvider } from './ERC4337EthersProvider'
 export { ClientConfig } from './ClientConfig'
 export { HttpRpcClient } from './HttpRpcClient'
 export { SimpleAccountAPI } from './SimpleAccountAPI'
-export { wrapSimpleProvider } from './Provider'
+export { wrapGProvider } from './GProvider'
 export {
     PreVerificationGasCalculator, PreVerificationGasCalculatorConfig, ChainConfigs, MainnetConfig
   } from './PreVerificationGasCalculator'

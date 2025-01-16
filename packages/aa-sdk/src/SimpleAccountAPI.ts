@@ -18,7 +18,6 @@ export interface SimpleAccountApiParams extends BaseApiParams {
   owner: Signer
   factoryAddress?: string
   index?: BigNumberish
-
 }
 
 /**

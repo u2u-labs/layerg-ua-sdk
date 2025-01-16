@@ -18,6 +18,18 @@ export {
   SenderCreator__factory
 } from '@layerg-ua-sdk/aa-smc/dist/typechain-types/factories/contracts/core'
 
+
+export {
+  GAccount,
+  GAccountFactory
+} from '@layerg-ua-sdk/aa-smc/dist/typechain-types/contracts/g-account'
+
+
+export {
+  GAccountFactory__factory,
+  GAccount__factory
+} from '@layerg-ua-sdk/aa-smc/dist/typechain-types/factories/contracts/g-account'
+
 export {
   SimpleAccount, SimpleAccountFactory
 } from '@layerg-ua-sdk/aa-smc/dist/typechain-types/contracts/samples'

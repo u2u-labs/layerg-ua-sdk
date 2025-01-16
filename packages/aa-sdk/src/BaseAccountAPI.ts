@@ -8,7 +8,7 @@ import { TransactionDetailsForUserOp } from "./TransactionDetailsForUserOp"
 
 export interface FactoryParams {
     factory: string
-    factoryData?: BytesLike
+    factoryData?: BytesLike | string
 }
 
 export interface BaseApiParams {
