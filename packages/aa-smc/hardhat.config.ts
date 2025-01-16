@@ -19,12 +19,12 @@ const config: any = {
 
     },
   },
-  // contractSizer: {
-  //   alphaSort: true,
-  //   disambiguatePaths: false,
-  //   runOnCompile: true,
-  //   strict: true,
-  // },
+  contractSizer: {
+    alphaSort: true,
+    disambiguatePaths: false,
+    runOnCompile: true,
+    strict: true,
+  },
   etherscan: {
     apiKey: "RX2H5QQVMY18Q49HDBDC9UTDWES1VNSHEZ",
     customChains: [
