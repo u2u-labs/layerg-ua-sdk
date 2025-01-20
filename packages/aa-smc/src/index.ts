@@ -57,6 +57,15 @@ export {
     SingletonPaymaster__factory
 } from '../typechain-types/factories/contracts/singleton-paymaster'
 
+
+export {
+    VerifyingPaymaster
+} from '../typechain-types/contracts/samples'
+
+export {
+    VerifyingPaymaster__factory
+} from '../typechain-types/factories/contracts/samples'
+
 export type ValidationResultStructOutput = IEntryPointSimulations.ValidationResultStructOutput
 export type ExecutionResultStructOutput = IEntryPointSimulations.ExecutionResultStructOutput
 export type StakeInfoStructOutput = IStakeManager.StakeInfoStructOutput

@@ -1,6 +1,6 @@
 import { Provider } from "@ethersproject/providers"
 import { PaymasterAPI } from "./PaymasterAPI"
-import { BigNumber, BigNumberish, BytesLike, ethers } from "ethers"
+import { BigNumber, BigNumberish, BytesLike, Signer, ethers } from "ethers"
 import { defaultAbiCoder } from "ethers/lib/utils"
 import { IEntryPoint, IEntryPoint__factory, UserOperation, encodeUserOp, getUserOpHash } from "@layerg-ua-sdk/aa-utils"
 import { TransactionDetailsForUserOp } from "./TransactionDetailsForUserOp"
@@ -8,7 +8,7 @@ import { TransactionDetailsForUserOp } from "./TransactionDetailsForUserOp"
 
 export interface FactoryParams {
     factory: string
-    factoryData?: BytesLike | string
+    factoryData?: BytesLike
 }
 
 export interface BaseApiParams {
@@ -16,6 +16,7 @@ export interface BaseApiParams {
     entryPointAddress: string
     accountAddress?: string
     paymasterAPI?: PaymasterAPI
+    owner: Signer
 }
 
 
@@ -30,6 +31,7 @@ export abstract class BaseAccountAPI {
     entryPointAddress: string
     accountAddress?: string
     paymasterAPI?: PaymasterAPI
+    owner: Signer
 
     /**
      * base constructor.
@@ -40,6 +42,7 @@ export abstract class BaseAccountAPI {
         this.entryPointAddress = params.entryPointAddress
         this.accountAddress = params.accountAddress
         this.paymasterAPI = params.paymasterAPI
+        this.owner = params.owner
 
         // factory "connect" define the contract address. the contract "connect" defines the "from" address.
         this.entryPointView = IEntryPoint__factory.connect(params.entryPointAddress, params.provider).connect(ethers.constants.AddressZero)
@@ -238,7 +241,8 @@ export abstract class BaseAccountAPI {
 
         if (this.paymasterAPI != null) {
             // fill (partial) preVerificationGas (all except the cost of the generated paymasterAndData)
-            const pmFields = await this.paymasterAPI.getTemporaryPaymasterData(partialUserOp)
+
+            const pmFields = await this.paymasterAPI.getTemporaryPaymasterData(partialUserOp, "0", "0", this.owner)
             if (pmFields != null) {
                 partialUserOp = {
                     ...partialUserOp,
@@ -252,7 +256,7 @@ export abstract class BaseAccountAPI {
         return {
             ...partialUserOp,
             preVerificationGas: 60000,
-            signature: ''
+            signature: '0x00'
         }
     }
 

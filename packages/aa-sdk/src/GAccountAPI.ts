@@ -5,14 +5,12 @@ import { arrayify } from "ethers/lib/utils";
 
 
 export interface GAccountApiParams extends BaseApiParams {
-    owner: Signer
     factoryAddress?: string
     index?: BigNumberish
 }
 
 export class GAccountAPI extends BaseAccountAPI {
     factoryAddress?: string
-    owner: Signer
     index?: BigNumberish
 
     accountContract?: GAccount
@@ -22,7 +20,6 @@ export class GAccountAPI extends BaseAccountAPI {
     constructor(params: GAccountApiParams) {
         super(params)
         this.factoryAddress = params.factoryAddress
-        this.owner = params.owner
         this.index = BigNumber.from(params.index ?? 0)
     }
 

@@ -101,8 +101,7 @@ contract SimpleAccount is BaseAccount, TokenCallbackHandler, UUPSUpgradeable, In
     }
 
     /// implement template method of BaseAccount
-    function _validateSignature(PackedUserOperation calldata userOp, bytes32 userOpHash)
-    internal override virtual returns (uint256 validationData) {
+    function _validateSignature(PackedUserOperation calldata userOp, bytes32 userOpHash) internal override virtual returns (uint256 validationData) {
         bytes32 hash = ECDSA.toEthSignedMessageHash(userOpHash);
         if (owner != ECDSA.recover(hash, userOp.signature))
             return SIG_VALIDATION_FAILED;

@@ -64,9 +64,18 @@ export type ExecutionResultStructOutput = IEntryPointSimulations.ExecutionResult
 export type StakeInfoStructOutput = IStakeManager.StakeInfoStructOutput
 
 
-import EntryPointSimulationsJson from '@layerg-ua-sdk/aa-smc/artifacts/contracts/core/EntryPointSimulations.sol/EntryPointSimulations.json'
+import EntryPointSimulationsJson from '@layerg-ua-sdk/aa-smc/dist/artifacts/contracts/core/EntryPointSimulations.sol/EntryPointSimulations.json'
 export {
   EntryPointSimulationsJson
 }
 
-export { PackedUserOperationStruct } from '@layerg-ua-sdk/aa-smc/typechain-types/contracts/core/EntryPoint'
+export { PackedUserOperationStruct } from '@layerg-ua-sdk/aa-smc/dist/typechain-types/contracts/core/EntryPoint'
+
+
+export {
+  VerifyingPaymaster
+} from '@layerg-ua-sdk/aa-smc/dist/typechain-types/contracts/samples'
+
+export {
+  VerifyingPaymaster__factory
+} from '@layerg-ua-sdk/aa-smc/dist/typechain-types/factories/contracts/samples'

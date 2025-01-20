@@ -27,6 +27,7 @@ contract VerifyingPaymaster is BasePaymaster {
 
     uint256 private constant SIGNATURE_OFFSET = VALID_TIMESTAMP_OFFSET + 64;
 
+
     constructor(IEntryPoint _entryPoint, address _verifyingSigner) BasePaymaster(_entryPoint) {
         verifyingSigner = _verifyingSigner;
     }
@@ -69,23 +70,13 @@ contract VerifyingPaymaster is BasePaymaster {
      * paymasterAndData[84:] : signature
      */
     function _validatePaymasterUserOp(PackedUserOperation calldata userOp, bytes32 /*userOpHash*/, uint256 requiredPreFund)
-    internal view override returns (bytes memory context, uint256 validationData) {
+    internal override returns (bytes memory context, uint256 validationData) {
         (requiredPreFund);
 
         (uint48 validUntil, uint48 validAfter, bytes calldata signature) = parsePaymasterAndData(userOp.paymasterAndData);
-        //ECDSA library supports both 64 and 65-byte long signatures.
-        // we only "require" it here so that the revert reason on invalid signature will be of "VerifyingPaymaster", and not "ECDSA"
-        require(signature.length == 64 || signature.length == 65, "VerifyingPaymaster: invalid signature length in paymasterAndData");
-        bytes32 hash = ECDSA.toEthSignedMessageHash(getHash(userOp, validUntil, validAfter));
 
-        //don't revert on signature failure: return SIG_VALIDATION_FAILED
-        if (verifyingSigner != ECDSA.recover(hash, signature)) {
-            return ("", _packValidationData(true, validUntil, validAfter));
-        }
-
-        //no need for other on-chain validation: entire UserOp should have been checked
-        // by the external service prior to signing it.
-        return ("", _packValidationData(false, validUntil, validAfter));
+        // TODO: verify
+        
     }
 
     function parsePaymasterAndData(bytes calldata paymasterAndData) public pure returns (uint48 validUntil, uint48 validAfter, bytes calldata signature) {

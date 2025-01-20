@@ -18,6 +18,7 @@ export async function wrapGProvider (
   originalSigner: Signer = originalProvider.getSigner()
 ): Promise<ERC4337EthersProvider> {
   const entryPoint = IEntryPoint__factory.connect(config.entryPointAddress, originalProvider)
+
   const gAccountconfig: GAccountApiParams = {
     owner: originalSigner,
     provider: originalProvider,
