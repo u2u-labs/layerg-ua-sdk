@@ -22,6 +22,7 @@
     "@ethersproject/providers": "^5.7.0",
     "@types/debug": "^4.1.7",
     "debug": "^4.3.4",
-    "ethers": "^5.7.0"
+    "ethers": "^5.7.0",
+    "axios": "^1.7.9"
   }
 }
