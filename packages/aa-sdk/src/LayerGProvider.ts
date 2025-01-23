@@ -1,38 +1,90 @@
 import { Provider, TransactionRequest } from "@ethersproject/providers"
 import { Deferrable } from "@ethersproject/properties"
-import { Signer, Wallet, ethers, providers, utils } from "ethers"
+import { Contract, Signer, Wallet, ethers, providers, utils } from "ethers"
 import axios, { AxiosInstance } from 'axios';
 import { UserOperation, deepHexlify } from "@layerg-ua-sdk/aa-utils";
 import { BaseAccountAPI } from "./BaseAccountAPI";
-import { UserOperationResponse } from "./types";
+import { ContractCallParams, UserOperationResponse } from "./types";
+import { Interface } from "ethers/lib/utils";
+import { AuthProvider } from "./AuthProvider";
 
+export interface LayerGProviderParams {
+    smartAccountAPI: BaseAccountAPI
+    bundlerUrl: string,
+    entryPoint: string,
+    authToken: string,
+    rpcUrl: string,
+}
 
 export class LayerGProvider extends Signer {
 
     private client: AxiosInstance;
     private entryPoint: string;
     provider: providers.Provider;
+    private smartAccountAPI: BaseAccountAPI
 
     constructor(
-        readonly smartAccountAPI: BaseAccountAPI,
-        bundlerUrl: string,
-        entryPoint: string,
-        authToken?: string,
-        rpcUrl?: string,
+        params: LayerGProviderParams
     ) {
         super();
-        this.provider = new providers.JsonRpcProvider(rpcUrl);
-        this.entryPoint = entryPoint;
+        this.provider = new AuthProvider(params.rpcUrl, params.authToken);
+        this.entryPoint = params.entryPoint;
         this.client = axios.create({
-            baseURL: bundlerUrl,
+            baseURL: params.bundlerUrl,
             headers: {
                 'Content-Type': 'application/json',
-                ...(authToken && { Authorization: `Bearer ${authToken}` })
+                'Authorization': `Bearer ${params.authToken}`
             }
         });
+        this.smartAccountAPI = params.smartAccountAPI
     }
 
-    async builAndSendUserOperation (transaction: Deferrable<TransactionRequest>): Promise<string> {
+    // Helper to read contract (no transaction needed)
+    async readContract({
+        contractAddress,
+        abi,
+        method,
+        params = []
+    }: {
+        contractAddress: string;
+        abi: any[];
+        method: string;
+        params?: any[];
+    }) {
+        const contract = new Contract(contractAddress, abi, this.provider);
+        return await contract[method](...params);
+    }
+
+    async executeContractCall({
+        sender,
+        contractAddress,
+        abi,
+        method,
+        params = [],
+        value = '0'
+    }: ContractCallParams): Promise<string> {
+        try {
+            // Create contract interface
+            const iface = new Interface(abi);
+            // Encode function data
+            const data = iface.encodeFunctionData(method, params);
+
+            // Build transaction
+            const tx = {
+                from: sender,
+                to: contractAddress,
+                data: data,
+                value: ethers.BigNumber.from(value)
+            };
+            const userOp = await this.buildUserOperation(tx)
+            return await this.sendUserOperation(userOp);
+        } catch (error) {
+            console.error('Failed to call smart contract:', error);
+            throw error;
+        }
+    }
+
+    async builAndSendUserOperation(transaction: Deferrable<TransactionRequest>): Promise<string> {
         const userOp = await this.buildUserOperation(transaction)
         return this.sendUserOperation(userOp);
     }
@@ -52,7 +104,6 @@ export class LayerGProvider extends Signer {
             throw error;
         }
     }
-
 
     async buildUserOperation(transaction: Deferrable<TransactionRequest>): Promise<UserOperation> {
         const tx: TransactionRequest = await this.populateTransaction(transaction)
@@ -111,7 +162,6 @@ export class LayerGProvider extends Signer {
     // Helper method to wait for receipt
     async waitForUserOperationReceipt(hash: string, timeout = 60000, interval = 5000): Promise<any> {
         const startTime = Date.now();
-        
         while (Date.now() - startTime < timeout) {
             const receipt = await this.getUserOperationReceipt(hash);
             if (receipt) {
@@ -119,14 +169,13 @@ export class LayerGProvider extends Signer {
             }
             await new Promise(resolve => setTimeout(resolve, interval));
         }
-        
         throw new Error('Timeout waiting for UserOperation receipt');
     }
 
     // Helper method to wait for UserOperation to be included
     async waitForUserOperation(hash: string, timeout = 60000, interval = 5000): Promise<UserOperationResponse> {
         const startTime = Date.now();
-        
+
         while (Date.now() - startTime < timeout) {
             const receipt = await this.getUserOperationByHash(hash);
             if (receipt) {
@@ -134,7 +183,7 @@ export class LayerGProvider extends Signer {
             }
             await new Promise(resolve => setTimeout(resolve, interval));
         }
-        
+
         throw new Error('Timeout waiting for UserOperation');
     }
 
