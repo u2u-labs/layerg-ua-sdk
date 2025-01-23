@@ -40,7 +40,7 @@ export class PaymasterAPI {
    *    fields except paymaster fields.
    * @return temporary paymaster parameters, that can be used for gas estimations
    */
-  async getTemporaryPaymasterData(userOp: Partial<UserOperation>, validUntil: string, validAfter: string, signer: Signer): Promise<PaymasterParams | null> {
+  async getTemporaryPaymasterData(userOp: Partial<UserOperation>, validUntil: string, validAfter: string, signer?: Signer): Promise<PaymasterParams | null> {
     const pack = packUserOp(this.toUserOperation(userOp))
     return await this.getPaymasterData(pack, validUntil, validAfter, signer)
   }
@@ -52,7 +52,7 @@ export class PaymasterAPI {
    *  paymasterAndData value, which will only be returned by this method..
    * @returns the values to put into paymaster fields, null to leave them empty
    */
-  async getPaymasterData(userOp: PackedUserOperationStruct, validUntil: string, validAfter: string, signer: Signer): Promise<PaymasterParams | null> {
+  async getPaymasterData(userOp: PackedUserOperationStruct, validUntil: string, validAfter: string, signer?: Signer): Promise<PaymasterParams | null> {
     if (this.paymaster == null) {
       if (this.paymasterAddress != null && this.paymasterAddress !== '') {
         this.paymaster = VerifyingPaymaster__factory.connect(this.paymasterAddress, this.provider)
@@ -60,6 +60,11 @@ export class PaymasterAPI {
         throw new Error('no paymaster to get hash')
       }
     }
+
+    if (!signer) {
+      throw new Error('signer not found')
+    }
+
     const hash = this.paymaster.interface.encodeFunctionData('getHash', [userOp, validUntil, validAfter])
     const signature = await signer.signMessage(ethers.utils.arrayify(hash));
     const paymasterData = hexConcat([

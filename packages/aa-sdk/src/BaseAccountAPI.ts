@@ -17,6 +17,7 @@ export interface BaseApiParams {
     accountAddress?: string
     paymasterAPI?: PaymasterAPI
     owner: Signer
+    accountIndex?: BigNumberish
 }
 
 
@@ -32,6 +33,7 @@ export abstract class BaseAccountAPI {
     accountAddress?: string
     paymasterAPI?: PaymasterAPI
     owner: Signer
+    accountIndex: BigNumberish
 
     /**
      * base constructor.
@@ -43,6 +45,7 @@ export abstract class BaseAccountAPI {
         this.accountAddress = params.accountAddress
         this.paymasterAPI = params.paymasterAPI
         this.owner = params.owner
+        this.accountIndex = BigNumber.from(params.accountIndex ?? 0)
 
         // factory "connect" define the contract address. the contract "connect" defines the "from" address.
         this.entryPointView = IEntryPoint__factory.connect(params.entryPointAddress, params.provider).connect(ethers.constants.AddressZero)
