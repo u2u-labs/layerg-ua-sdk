@@ -63,7 +63,7 @@ abstract contract GBaseAccountFactory is IGAccountFactory, Multicall {
         require(_isAccountOfFactory(account, _salt), "AccountFactory: not an account.");
 
         bool isNewSigner = accountsOfSigner[_signer].add(account);
-
+        
         if (isNewSigner) {
             emit SignerAdded(account, _signer);
         }

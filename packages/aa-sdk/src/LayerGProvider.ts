@@ -1,6 +1,6 @@
 import { Provider, TransactionRequest } from "@ethersproject/providers"
 import { Deferrable } from "@ethersproject/properties"
-import { Contract, Signer, Wallet, ethers, providers, utils } from "ethers"
+import { Contract, Signer, ethers, providers, utils } from "ethers"
 import axios, { AxiosInstance } from 'axios';
 import { UserOperation, deepHexlify } from "@layerg-ua-sdk/aa-utils";
 import { BaseAccountAPI } from "./BaseAccountAPI";

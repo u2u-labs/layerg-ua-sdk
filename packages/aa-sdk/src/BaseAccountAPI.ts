@@ -25,6 +25,7 @@ export abstract class BaseAccountAPI {
 
     private senderAddress!: string
     private isPhantom = true
+    
     // entryPoint connected to "zero" address. allowed to make static calls (e.g. to getSenderAddress)
     private readonly entryPointView: IEntryPoint
 

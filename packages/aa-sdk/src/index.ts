@@ -6,10 +6,12 @@ export { ClientConfig } from './ClientConfig'
 export { HttpRpcClient } from './HttpRpcClient'
 export { SimpleAccountAPI } from './SimpleAccountAPI'
 export { GAccountAPI } from './GAccountAPI'
-export { LayerGProvider } from './LayerGProvider'
+export * from './LayerGProvider'
 export { wrapGProvider } from './GProvider'
 export {
     PreVerificationGasCalculator, PreVerificationGasCalculatorConfig, ChainConfigs, MainnetConfig
   } from './PreVerificationGasCalculator'
   
 export * from './types'
+
+export * from './LayerGOperation'
