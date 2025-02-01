@@ -15,3 +15,4 @@ export {
 export * from './types'
 
 export * from './LayerGOperation'
+export * from './buildContractCallRequest'

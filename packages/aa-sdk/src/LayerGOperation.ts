@@ -1,9 +1,8 @@
 import { Provider, TransactionRequest } from "@ethersproject/providers"
 import { Deferrable } from "@ethersproject/properties"
-import { Signer, ethers, providers, utils } from "ethers"
+import { Signer, providers, utils } from "ethers"
 import { UserOperation } from "@layerg-ua-sdk/aa-utils";
 import { BaseAccountAPI } from "./BaseAccountAPI";
-
 export interface LayerGOperationParams {
     smartAccountAPI: BaseAccountAPI
     provider: providers.Provider;
@@ -20,6 +19,7 @@ export class LayerGOperation extends Signer {
         this.provider = params.provider
         this.smartAccountAPI = params.smartAccountAPI
     }
+
 
     async buildUserOperation(transaction: Deferrable<TransactionRequest>): Promise<UserOperation> {
         const tx: TransactionRequest = await this.populateTransaction(transaction)
