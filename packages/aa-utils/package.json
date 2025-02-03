@@ -1,6 +1,6 @@
 {
   "name": "@layerg-ua-sdk/aa-utils",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "publishConfig": {
     "access": "public"
   },
@@ -16,17 +16,17 @@
     "tsc": "tsc"
   },
   "devDependencies": {
-    "typescript": "^latest",
-    "rimraf": "^latest"
+    "rimraf": "^latest",
+    "typescript": "^latest"
   },
   "dependencies": {
-    "@layerg-ua-sdk/aa-smc": "^1.0.0",
     "@ethereumjs/util": "10.0.0-alpha.1",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/abstract-provider": "^5.7.0",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/keccak256": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
+    "@layerg-ua-sdk/aa-smc": "^0.0.1",
     "@openzeppelin/contracts": "^5.0.1",
     "debug": "^4.3.4",
     "ethereumjs-util": "^7.1.5",

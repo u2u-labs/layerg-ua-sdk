@@ -1,6 +1,6 @@
 {
   "name": "@layerg-ua-sdk/aa-validation",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "publishConfig": {
     "access": "public"
   },
@@ -13,11 +13,11 @@
     "clear-libs": "rm -rf node_modules"
   },
   "devDependencies": {
-    "typescript": "^latest",
-    "rimraf": "^latest"
+    "rimraf": "^latest",
+    "typescript": "^latest"
   },
   "dependencies": {
-    "@layerg-ua-sdk/aa-utils": "^1.0.0",
-    "@layerg-ua-sdk/aa-sdk": "^1.0.0"
+    "@layerg-ua-sdk/aa-sdk": "^0.0.1",
+    "@layerg-ua-sdk/aa-utils": "^0.0.1"
   }
 }
