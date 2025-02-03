@@ -1,6 +1,6 @@
 {
   "name": "@layerg-ua-sdk/aa-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publishConfig": {
     "access": "public"
   },
@@ -21,8 +21,8 @@
     "@ethersproject/networks": "^5.7.0",
     "@ethersproject/properties": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
-    "@layerg-ua-sdk/aa-smc": "^0.0.2",
-    "@layerg-ua-sdk/aa-utils": "^0.0.2",
+    "@layerg-ua-sdk/aa-smc": "^0.0.3",
+    "@layerg-ua-sdk/aa-utils": "^0.0.3",
     "@types/debug": "^4.1.7",
     "axios": "^1.7.9",
     "debug": "^4.3.4",
