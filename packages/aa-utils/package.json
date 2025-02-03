@@ -1,6 +1,6 @@
 {
   "name": "@layerg-ua-sdk/aa-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -26,7 +26,7 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/keccak256": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
-    "@layerg-ua-sdk/aa-smc": "^0.0.1",
+    "@layerg-ua-sdk/aa-smc": "^0.0.2",
     "@openzeppelin/contracts": "^5.0.1",
     "debug": "^4.3.4",
     "ethereumjs-util": "^7.1.5",
