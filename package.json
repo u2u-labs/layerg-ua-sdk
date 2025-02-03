@@ -15,7 +15,8 @@
     "hardhat-compile": "lerna run hardhat-compile",
     "compile": "yarn hardhat-compile",
     "clear": "lerna run clear",
-    "clear:libs": "lerna run clear-libs"
+    "clear:libs": "lerna run clear-libs",
+    "publish": "lerna publish"
 
   },
   "devDependencies": {
