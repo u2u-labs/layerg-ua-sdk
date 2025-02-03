@@ -71,9 +71,10 @@ export type ExecutionResultStructOutput = IEntryPointSimulations.ExecutionResult
 export type StakeInfoStructOutput = IStakeManager.StakeInfoStructOutput
 
 
-import EntryPointSimulationsJson from '../artifacts/contracts/core/EntryPointSimulations.sol/EntryPointSimulations.json'
-export {
-    EntryPointSimulationsJson
-}
+// import EntryPointSimulationsJson from '../artifacts/contracts/core/EntryPointSimulations.sol/EntryPointSimulations.json'
+
+// export {
+//     EntryPointSimulationsJson
+// }
 
 export { PackedUserOperationStruct } from '../typechain-types/contracts/core/EntryPoint'

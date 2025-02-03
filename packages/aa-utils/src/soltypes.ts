@@ -12,7 +12,7 @@ export {
   IStakeManager__factory,
   IPaymaster__factory,
   IEntryPointSimulations__factory
-} from '@layerg-ua-sdk/aa-smc/typechain-types/factories/contracts/interfaces'
+} from '@layerg-ua-sdk/aa-smc/dist/typechain-types/factories/contracts/interfaces'
 
 export {
   SenderCreator__factory
