@@ -1,9 +1,6 @@
 {
   "name": "@layerg-ua-sdk/aa-utils",
   "version": "0.0.4",
-  "publishConfig": {
-    "access": "public"
-  },
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -33,5 +30,5 @@
     "ethers": "^5.7.0",
     "rlp": "^3.0.0"
   },
-  "gitHead": "150c6e6a15360c679c51bfeada26e951f2a8b3f7"
+  "gitHead": "6955bc66656ad86a66eae9ba543808588d91a59d"
 }
