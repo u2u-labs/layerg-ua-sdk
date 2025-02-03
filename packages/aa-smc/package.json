@@ -50,5 +50,6 @@
     "bignumber.js": "^9.1.1",
     "debug": "^4.3.4",
     "dotenv": "^16.3.1"
-  }
+  },
+  "gitHead": "2ba067ecdaef836904f3ad6adee4f8ff288809c0"
 }

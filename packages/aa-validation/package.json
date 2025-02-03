@@ -19,5 +19,6 @@
   "dependencies": {
     "@layerg-ua-sdk/aa-sdk": "^0.0.1",
     "@layerg-ua-sdk/aa-utils": "^0.0.1"
-  }
+  },
+  "gitHead": "2ba067ecdaef836904f3ad6adee4f8ff288809c0"
 }
