@@ -1,7 +1,6 @@
 {
   "name": "layerg-ua-sdk",
-  "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "author": "phidangnguyen <phidang0210@gmail.com>",
   "license": "MIT",
@@ -17,7 +16,6 @@
     "clear": "lerna run clear",
     "clear:libs": "lerna run clear-libs",
     "publish": "lerna publish"
-
   },
   "devDependencies": {
     "lerna": "^8.1.9",
