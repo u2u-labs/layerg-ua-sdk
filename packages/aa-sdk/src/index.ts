@@ -16,3 +16,4 @@ export * from './types'
 
 export * from './LayerGOperation'
 export * from './buildContractCallRequest'
+export * from './LayerGAPI'
