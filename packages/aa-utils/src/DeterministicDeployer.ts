@@ -36,7 +36,7 @@ export class DeterministicDeployer {
   }
 
   // from: https://github.com/Arachnid/deterministic-deployment-proxy
-  static proxyAddress = '0x4e59b44847b379578588920ca78fbf26c0b4956c'
+  static proxyAddress = '0x44A5127a3088AD9e5bf7477616D2f19B3F3BB274'
   static deploymentTransaction = '0xf8a58085174876e800830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf31ba02222222222222222222222222222222222222222222222222222222222222222a02222222222222222222222222222222222222222222222222222222222222222'
   static deploymentSignerAddress = '0x3fab184622dc19b6109349b94811493bf2a45362'
   static deploymentGasPrice = 100e9
@@ -63,10 +63,12 @@ export class DeterministicDeployer {
     const neededBalance = BigNumber.from(DeterministicDeployer.deploymentGasLimit).mul(DeterministicDeployer.deploymentGasPrice)
     if (bal.lt(neededBalance)) {
       const signer = this.signer ?? this.provider.getSigner()
+      const { chainId } = await this.provider.getNetwork();
       await signer.sendTransaction({
         to: DeterministicDeployer.deploymentSignerAddress,
         value: neededBalance,
-        gasLimit: DeterministicDeployer.deploymentGasLimit
+        gasLimit: DeterministicDeployer.deploymentGasLimit,
+        chainId: chainId
       }).then(async t => await t.wait())
     }
     const tx = await this.provider.send('eth_sendRawTransaction', [DeterministicDeployer.deploymentTransaction])
@@ -114,12 +116,14 @@ export class DeterministicDeployer {
     ])).slice(-40))
   }
 
-  async deterministicDeploy (ctrCode: string | ContractFactory, salt: BigNumberish = 0, params: any[] = []): Promise<string> {
+  async deterministicDeploy (ctrCode: string | ContractFactory, salt: BigNumberish = 0, params: any[] = []): Promise<string> {    
     const addr = DeterministicDeployer.getDeterministicDeployAddress(ctrCode, salt, params)
     if (!await this.isContractDeployed(addr)) {
       const signer = this.signer ?? this.provider.getSigner()
-      await signer.sendTransaction(
-        await this.getDeployTransaction(ctrCode, salt, params))
+      const { chainId } = await this.provider.getNetwork();
+      const tx = await this.getDeployTransaction(ctrCode, salt, params);
+      tx.chainId = chainId; // ✅ Add chainId to enable EIP-155 replay protection
+      await signer.sendTransaction(tx)
     }
     return addr
   }

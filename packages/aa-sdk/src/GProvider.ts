@@ -25,7 +25,8 @@ export async function wrapGProvider (
     entryPointAddress: config.entryPointAddress,
     accountAddress: config.walletAddress,
     paymasterAPI: config.paymasterAPI,
-    factoryAddress: config.factoryAddress
+    factoryAddress: config.factoryAddress,
+    projectApiKey: config.projectApiKey
   }
   const gAccountAPI = await new GAccountAPI(gAccountconfig)
 

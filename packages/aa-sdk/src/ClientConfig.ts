@@ -22,6 +22,8 @@ export interface ClientConfig {
     paymasterAPI?: PaymasterAPI
 
     factoryAddress?: string
+
+    projectApiKey?: string
     
   }
   

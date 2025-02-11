@@ -6,16 +6,19 @@ import { arrayify } from "ethers/lib/utils";
 
 export interface GAccountApiParams extends BaseApiParams {
     factoryAddress?: string
+    projectApiKey?: string
 }
 
 export class GAccountAPI extends BaseAccountAPI {
     factoryAddress?: string
+    projectApiKey?: string
     accountContract?: GAccount
     factory?: GAccountFactory
 
     constructor(params: GAccountApiParams) {
         super(params)
         this.factoryAddress = params.factoryAddress
+        this.projectApiKey = params.projectApiKey ? params.projectApiKey.startsWith('0x') ? params.projectApiKey : `0x${params.projectApiKey}` : '';
     }
 
     /**
@@ -30,7 +33,7 @@ export class GAccountAPI extends BaseAccountAPI {
                 throw new Error('no factory to get initCode')
             }
         }
-        const indexBytes = ethers.utils.defaultAbiCoder.encode(['address', 'address', 'uint256'], [this.factoryAddress, await this.owner.getAddress(), this.accountIndex]); // Convert index to bytes
+        const indexBytes = ethers.utils.defaultAbiCoder.encode(['address', 'address', 'address'], [this.factoryAddress, await this.owner.getAddress(), this.projectApiKey]); // Convert index to bytes  
         return {
             factory: this.factory.address,
             factoryData: this.factory.interface.encodeFunctionData('createAccount', [await this.owner.getAddress(), indexBytes])
