@@ -13,8 +13,8 @@
     "tsc": "tsc"
   },
   "devDependencies": {
-    "rimraf": "^latest",
-    "typescript": "^latest"
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@ethereumjs/util": "10.0.0-alpha.1",
@@ -23,7 +23,7 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/keccak256": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
-    "@layerg-ua-sdk/aa-smc": "^0.0.9",
+    "@layerg-ua-sdk/aa-smc": "workspace:^0.0.9",
     "@openzeppelin/contracts": "^5.0.1",
     "debug": "^4.3.4",
     "ethereumjs-util": "^7.1.5",

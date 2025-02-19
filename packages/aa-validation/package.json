@@ -13,12 +13,12 @@
     "clear-libs": "rm -rf node_modules"
   },
   "devDependencies": {
-    "rimraf": "^latest",
-    "typescript": "^latest"
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@layerg-ua-sdk/aa-sdk": "^0.0.9",
-    "@layerg-ua-sdk/aa-utils": "^0.0.9"
+    "@layerg-ua-sdk/aa-sdk": "workspace:^0.0.9",
+    "@layerg-ua-sdk/aa-utils": "workspace:^0.0.9"
   },
   "gitHead": "6955bc66656ad86a66eae9ba543808588d91a59d"
 }
