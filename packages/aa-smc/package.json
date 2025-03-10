@@ -19,7 +19,9 @@
     "deploy-entrypoint": "npx hardhat run scripts/entrypoint.ts --network solaris",
     "deploy-simple-factory": "npx hardhat run scripts/simple-factory.ts --network nebulas",
     "deploy-g-factory": "npx hardhat run scripts/g-factory.ts --network nebulas",
-    "deploy-s-paymaster": "npx hardhat run scripts/singleton-paymaster.ts --network nebulas"
+    "deploy-s-paymaster": "npx hardhat run scripts/singleton-paymaster.ts --network nebulas",
+    "deploy-g-token": "npx hardhat run scripts/simple-g-token.ts --network nebulas",
+    "deploy-wheel": "npx hardhat run scripts/simple-wheel.ts --network nebulas"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
