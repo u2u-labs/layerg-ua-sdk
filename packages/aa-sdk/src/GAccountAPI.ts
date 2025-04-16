@@ -33,7 +33,7 @@ export class GAccountAPI extends BaseAccountAPI {
                 throw new Error('no factory to get initCode')
             }
         }
-        const indexBytes = ethers.utils.defaultAbiCoder.encode(['address', 'address', 'address'], [this.factoryAddress, await this.owner.getAddress(), this.projectApiKey]); // Convert index to bytes  
+        const indexBytes = ethers.utils.defaultAbiCoder.encode(['address', 'address', 'address'], [this.factoryAddress, await this.owner.getAddress(), this.projectApiKey, ]); // Convert index to bytes  
         return {
             factory: this.factory.address,
             factoryData: this.factory.interface.encodeFunctionData('createAccount', [await this.owner.getAddress(), indexBytes])
@@ -41,11 +41,12 @@ export class GAccountAPI extends BaseAccountAPI {
     }
 
     async getNonce(): Promise<BigNumber> {
-        if (await this.checkAccountPhantom()) {
+        const isPhantom = await this.checkAccountPhantom();
+        if (isPhantom) {
             return BigNumber.from(0)
         }
         const accountContract = await this._getAccountContract()
-        return await accountContract.getNonce()
+        return await  accountContract.getNonce()
     }
 
     async _getAccountContract(): Promise<GAccount> {

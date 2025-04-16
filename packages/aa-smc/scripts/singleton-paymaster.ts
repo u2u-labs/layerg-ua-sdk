@@ -33,3 +33,5 @@ main().catch((error) => {
 
 
 // SingletonPaymaster at 0xd310620566b2fbdAb874BEa8F39e78B2Aa72A4d0
+
+// npx hardhat verify --network a8Testnet 0x803Cf2b820bcE4774DdfeB5CA13169Ef96fAc0d7

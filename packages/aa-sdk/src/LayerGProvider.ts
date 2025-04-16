@@ -108,14 +108,36 @@ export class LayerGProvider extends Signer {
     async buildUserOperation(transaction: Deferrable<TransactionRequest>): Promise<UserOperation> {
         const tx: TransactionRequest = await this.populateTransaction(transaction)
         await this.verifyAllNecessaryFields(tx)
-        const userOp = await this.smartAccountAPI.createSignedUserOp({
+        let userOp = await this.smartAccountAPI.createSignedUserOp({
             target: tx.to ?? '',
             data: tx.data?.toString() ?? '',
             value: tx.value,
             gasLimit: tx.gasLimit
         })
-        return userOp
+        // Add validation step
+        userOp = await this.validateUserOperation(userOp);
+
+        return userOp;
     }
+
+    // Add this to LayerGProvider class
+    async validateUserOperation(userOp: UserOperation): Promise<UserOperation> {
+        // Verify sender address has no code if initCode is provided
+        if (userOp.factory && userOp.factoryData) {
+            const code = await this.provider.getCode(userOp.sender);
+            if (code !== '0x' && code !== '0x0') {
+                console.warn(`Account ${userOp.sender} already has code but initCode was provided! Removing initCode.`);
+                // Create a new userOp without factory/factoryData
+                return {
+                    ...userOp,
+                    factory: undefined,
+                    factoryData: undefined
+                };
+            }
+        }
+        return userOp;
+    }
+
 
     async getUserOperationByHash(hash: string): Promise<UserOperationResponse | null> {
         try {

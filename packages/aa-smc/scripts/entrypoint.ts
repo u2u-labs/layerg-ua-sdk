@@ -1,4 +1,4 @@
-import { ethers } from "hardhat";
+// import { ethers } from "hardhat";
 import hre from "hardhat";
 
 async function main() {
@@ -8,7 +8,7 @@ async function main() {
   // await entryPoint.deployed();
   // console.log(`Entrypoint deployed to ${entryPoint.address}`);
   // const entryPointContract = entryPoint.address
-  const entryPointContract = "0x803Cf2b820bcE4774DdfeB5CA13169Ef96fAc0d7"
+  // const entryPointContract = "0x803Cf2b820bcE4774DdfeB5CA13169Ef96fAc0d7"
 
   // // Deploy G account factory
   // const _defaultAdmin = "0x556180984Ec8B4d28476376f99A071042f262a5c"
@@ -20,12 +20,12 @@ async function main() {
 
 
   // Deploy verifying paymaster
-  const _verifyingSigner = "0x13ddb633924e5bC7C4F4983bCE25497e62F1e32D"
-  const VerifyingPaymaster = await ethers.getContractFactory("VerifyingPaymaster");
-  const verifyingPaymaster = await VerifyingPaymaster.deploy(entryPointContract, _verifyingSigner); // Deploy the contract
-  await verifyingPaymaster.deployed();
-  console.log(`VerifyingPaymaster deployed to ${verifyingPaymaster.address}`);
-  const verifyingPaymasterContract = verifyingPaymaster.address
+  // const _verifyingSigner = "0x13ddb633924e5bC7C4F4983bCE25497e62F1e32D"
+  // const VerifyingPaymaster = await ethers.getContractFactory("VerifyingPaymaster");
+  // const verifyingPaymaster = await VerifyingPaymaster.deploy(entryPointContract, _verifyingSigner); // Deploy the contract
+  // await verifyingPaymaster.deployed();
+  // console.log(`VerifyingPaymaster deployed to ${verifyingPaymaster.address}`);
+  // const verifyingPaymasterContract = verifyingPaymaster.address
 
   // try {
   //   await hre.run("verify:verify", {
@@ -45,14 +45,14 @@ async function main() {
   //   console.log('GAccountFactory: ', error);
   // }
 
-  try {
-    await hre.run("verify:verify", {
-      address: verifyingPaymasterContract,
-      constructorArguments: [entryPointContract, _verifyingSigner],
-    });
-  } catch (error) {
-    console.log('verifyingPaymasterContract: ', error);
-  }
+  // try {
+  //   await hre.run("verify:verify", {
+  //     address: verifyingPaymasterContract,
+  //     constructorArguments: [entryPointContract, _verifyingSigner],
+  //   });
+  // } catch (error) {
+  //   console.log('verifyingPaymasterContract: ', error);
+  // }
 }
 
 // We recommend this pattern to be able to use async/await everywhere
