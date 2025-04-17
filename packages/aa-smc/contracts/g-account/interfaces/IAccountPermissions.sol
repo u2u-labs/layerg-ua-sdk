@@ -11,7 +11,6 @@ interface IAccountPermissions {
      *
      *  @param signer The addres of the signer to give permissions.
      *  @param approvedTargets The list of approved targets that a role holder can call using the smart wallet.
-     *  @param nativeTokenLimitPerTransaction The maximum value that can be transferred by a role holder in a single transaction.
      *  @param permissionStartTimestamp The UNIX timestamp at and after which a signer has permission to use the smart wallet.
      *  @param permissionEndTimestamp The UNIX timestamp at and after which a signer no longer has permission to use the smart wallet.
      *  @param reqValidityStartTimestamp The UNIX timestamp at and after which a signature is valid.
@@ -23,7 +22,6 @@ interface IAccountPermissions {
         address signer;
         uint8 isAdmin;
         address[] approvedTargets;
-        uint256 nativeTokenLimitPerTransaction;
         uint128 permissionStartTimestamp;
         uint128 permissionEndTimestamp;
         uint128 reqValidityStartTimestamp;
@@ -36,14 +34,12 @@ interface IAccountPermissions {
      *
      *  @param signer The address of the signer.
      *  @param approvedTargets The list of approved targets that a role holder can call using the smart wallet.
-     *  @param nativeTokenLimitPerTransaction The maximum value that can be transferred by a role holder in a single transaction.
      *  @param startTimestamp The UNIX timestamp at and after which a signer has permission to use the smart wallet.
      *  @param endTimestamp The UNIX timestamp at and after which a signer no longer has permission to use the smart wallet.
      */
     struct SignerPermissions {
         address signer;
         address[] approvedTargets;
-        uint256 nativeTokenLimitPerTransaction;
         uint128 startTimestamp;
         uint128 endTimestamp;
     }
@@ -51,12 +47,10 @@ interface IAccountPermissions {
     /**
      *  @notice Internal struct for storing permissions for a signer (without approved targets).
      *
-     *  @param nativeTokenLimitPerTransaction The maximum value that can be transferred by a role holder in a single transaction.
      *  @param startTimestamp The UNIX timestamp at and after which a signer has permission to use the smart wallet.
      *  @param endTimestamp The UNIX timestamp at and after which a signer no longer has permission to use the smart wallet.
      */
     struct SignerPermissionsStatic {
-        uint256 nativeTokenLimitPerTransaction;
         uint128 startTimestamp;
         uint128 endTimestamp;
     }
