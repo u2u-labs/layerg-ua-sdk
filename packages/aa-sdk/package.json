@@ -13,8 +13,8 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "rimraf": "^latest",
-    "typescript": "^latest"
+    "rimraf":  "^4.4.1",
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",

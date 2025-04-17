@@ -13,8 +13,8 @@
     "clear-libs": "rm -rf node_modules"
   },
   "devDependencies": {
-    "rimraf": "^latest",
-    "typescript": "^latest"
+    "rimraf": "^4.4.1",
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "@layerg-ua-sdk/aa-sdk": "^0.0.10",

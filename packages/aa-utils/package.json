@@ -13,8 +13,8 @@
     "tsc": "tsc"
   },
   "devDependencies": {
-    "rimraf": "^latest",
-    "typescript": "^latest"
+    "rimraf": "^4.4.1",
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "@ethereumjs/util": "10.0.0-alpha.1",
