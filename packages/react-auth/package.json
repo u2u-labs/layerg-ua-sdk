@@ -14,7 +14,8 @@
   "scripts": {
     "clear": "rm -rf dist",
     "clear-libs": "rm -rf node_modules",
-    "build": "tsc"
+    "build": "tsc",
+    "watch": "tsc && yalc push"
   },
   "bugs": {
     "url": "https://github.com/u2u-labs/layerg-ua-sdk/issues"
@@ -31,6 +32,7 @@
     "@testing-library/react": "^16.3.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "clsx": "^2.1.1",
     "eslint": "^9.24.0",
     "jest": "^29.7.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
