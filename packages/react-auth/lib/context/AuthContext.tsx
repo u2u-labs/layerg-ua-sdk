@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import { createContext } from "react";
 
 export interface User {
   id: string;
@@ -18,6 +18,9 @@ export interface AuthContextType {
   appId: string;
   apiKey: string;
   authUrl: string;
+
+  isOpenLoginPopup: boolean;
+  toggleOpenLoginPopup: (val: boolean) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
