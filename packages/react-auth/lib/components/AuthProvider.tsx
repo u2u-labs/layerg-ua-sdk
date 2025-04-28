@@ -1,26 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { useEffect, useState } from "react";
+import { AuthContext, AuthContextType } from "../context/AuthContext";
 
-export const AuthProvider = ({ 
-  appId, 
-  apiKey, 
-  authUrl = "https://auth-api.example.com", 
-  children 
-}: any) => {
+interface Props {
+  appId: string;
+  apiKey: string;
+  authUrl: string;
+  children: any;
+}
+
+export const LayerGAuthProvider = ({
+  appId,
+  apiKey,
+  authUrl,
+  children,
+}: Props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(null);
+
+  const [isOpenLoginPopup, setIsOpenLoginPopup] = useState<boolean>(false);
+  const toggleOpenLoginPopup = (isOpen?: boolean) => {
+    setIsOpenLoginPopup(isOpen ?? !isOpenLoginPopup);
+  };
 
   // Initialize authentication on component mount
   useEffect(() => {
     const initializeAuth = async () => {
       try {
         setIsLoading(true);
-        
+
         // Check for existing session (e.g., from localStorage or cookie)
-        const token = localStorage.getItem('auth_token');
-        
+        const token = localStorage.getItem("layerg_auth_token");
+
         if (token) {
           // Validate token and get user data
           const userData = await fetchUserData(token);
@@ -28,32 +40,32 @@ export const AuthProvider = ({
           setIsAuthenticated(true);
         }
       } catch (err: any) {
-        console.error('Failed to initialize auth:', err);
+        console.error("Failed to initialize auth:", err);
         setError(err.message);
         // Clear any invalid tokens
-        localStorage.removeItem('auth_token');
+        localStorage.removeItem("layerg_auth_token");
       } finally {
         setIsLoading(false);
       }
     };
-    
+
     initializeAuth();
   }, [appId, apiKey, authUrl]);
 
   // Helper function to fetch user data
-  const fetchUserData = async (token: any) => {
+  const fetchUserData = async (token: string) => {
     const response = await fetch(`${authUrl}/api/user`, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'x-app-id': appId,
-        'x-api-key': apiKey
-      }
+        Authorization: `Bearer ${token}`,
+        "x-app-id": appId,
+        "x-api-key": apiKey,
+      },
     });
-    
+
     if (!response.ok) {
-      throw new Error('Failed to fetch user data');
+      throw new Error("Failed to fetch user data");
     }
-    
+
     return response.json();
   };
 
@@ -61,32 +73,32 @@ export const AuthProvider = ({
   const login = async (credentials: any) => {
     try {
       setIsLoading(true);
-      
+
       const response = await fetch(`${authUrl}/api/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'x-app-id': appId,
-          'x-api-key': apiKey
+          "Content-Type": "application/json",
+          "x-app-id": appId,
+          "x-api-key": apiKey,
         },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials),
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
+        throw new Error(errorData.message || "Login failed");
       }
-      
+
       const { token, userData } = await response.json();
-      
+
       // Store token
-      localStorage.setItem('auth_token', token);
-      
+      localStorage.setItem("layerg_auth_token", token);
+
       // Update state
       setUser(userData);
       setIsAuthenticated(true);
       setError(null);
-      
+
       return userData;
     } catch (err: any) {
       setError(err.message);
@@ -100,35 +112,35 @@ export const AuthProvider = ({
   const logout = async () => {
     try {
       setIsLoading(true);
-      
-      const token = localStorage.getItem('auth_token');
-      
+
+      const token = localStorage.getItem("layerg_auth_token");
+
       if (token) {
         await fetch(`${authUrl}/api/logout`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'x-app-id': appId,
-            'x-api-key': apiKey
-          }
+            Authorization: `Bearer ${token}`,
+            "x-app-id": appId,
+            "x-api-key": apiKey,
+          },
         });
       }
-      
+
       // Clear token
-      localStorage.removeItem('auth_token');
-      
+      localStorage.removeItem("layerg_auth_token");
+
       // Update state
       setUser(null);
       setIsAuthenticated(false);
     } catch (err) {
-      console.error('Logout error:', err);
+      console.error("Logout error:", err);
     } finally {
       setIsLoading(false);
     }
   };
 
   // Provide authentication context value
-  const contextValue = {
+  const contextValue: AuthContextType = {
     user,
     isAuthenticated,
     isLoading,
@@ -137,12 +149,12 @@ export const AuthProvider = ({
     logout,
     appId,
     apiKey,
-    authUrl
+    authUrl,
+    isOpenLoginPopup,
+    toggleOpenLoginPopup,
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
