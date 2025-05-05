@@ -7,8 +7,8 @@
   "scripts": {
     "clear": "rm -rf dist artifacts cache typechain-types",
     "build": "tsc && npm run postbuild",
-    "postbuild": "cp -r artifacts dist/",
-    "clear-libs": "rm -rf node_modules",
+    "postbuild": "cp -r artifacts dist/ && cp -r typechain-types dist/",
+      "clear-libs": "rm -rf node_modules",
     "hardhat-compile": "npx hardhat compile",
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",
