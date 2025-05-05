@@ -1,0 +1,122 @@
+@use 'variables' as *;
+
+.layerg-login-ui {
+  &-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    height: 100%;
+  }
+
+  &-header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &-title {
+      @include text-xl;
+      font-weight: 600;
+      text-transform: uppercase;
+
+      @media (min-width: 768px) {
+        @include text-2xl;
+      }
+
+      @media (min-width: 1280px) {
+        @include text-3xl;
+      }
+    }
+
+    &-description {
+      @include text-sm;
+
+      @media (min-width: 768px) {
+        @include text-base;
+      }
+    }
+  }
+
+  &-provider {
+    &-block {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    &-content {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+
+      @media (min-width: 768px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    &-btn {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      width: 100%;
+      padding: 1rem 1rem;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      align-items: center;
+      border-radius: 1.25rem /* 20px */;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &-background {
+        position: absolute;
+        inset: 0px;
+        background-image: linear-gradient(to bottom right, #30beb6, #3069be);
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+        opacity: 0.75;
+      }
+
+      &:not(:disabled) {
+        &:hover {
+          .layerg-login-ui-provider-btn-background {
+            opacity: 0.6;
+          }
+        }
+      }
+
+      &-icon {
+        position: relative;
+        width: 3.25rem /* 52px */;
+      }
+
+      &-content {
+        flex: 1 1 0%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        gap: 0.25rem /* 4px */;
+        width: 100%;
+
+        h4 {
+          color: #ffffff;
+          font-weight: 600;
+          font-size: 1.125rem /* 18px */;
+          line-height: 1.5rem /* 24px */;
+        }
+      }
+    }
+  }
+}
