@@ -16,11 +16,12 @@
     "attack": "npx hardhat run scripts/attack.ts --network nebulas",
     "whitelist": "npx hardhat run scripts/whitelist.ts --network nebulas",
     "size": "npx hardhat size-contracts",
-    "deploy-paymaster": "npx hardhat run scripts/paymaster.ts --network nebulas",
+    "deploy-paymaster": "npx hardhat run scripts/paymaster.ts --network a8Testnet",
     "deploy-entrypoint": "npx hardhat run scripts/entrypoint.ts --network solaris",
     "deploy-simple-factory": "npx hardhat run scripts/simple-factory.ts --network nebulas",
     "deploy-g-factory": "npx hardhat run scripts/g-factory.ts --network nebulas",
-    "deploy-s-paymaster": "npx hardhat run scripts/singleton-paymaster.ts --network nebulas"
+    "deploy-s-paymaster": "npx hardhat run scripts/singleton-paymaster.ts --network nebulas",
+    "deploy-deterministic": "npx hardhat run scripts/deterministic.ts --network a8Testnet"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
@@ -47,6 +48,7 @@
     "@uniswap/v3-periphery": "^1.4.3",
     "bignumber.js": "^9.1.1",
     "debug": "^4.3.4",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "@layerg-ua-sdk/aa-utils": "^0.0.10"
   }
 }

@@ -43,6 +43,14 @@ const config: any = {
           apiURL: "https://testnet.u2uscan.xyz/api",
           browserURL: "https://testnet.u2uscan.xyz"
         }
+      },
+      {
+        network: "a8Testnet",
+        chainId: 28122024,
+        urls: {
+          apiURL: "https://scanv2-testnet.ancient8.gg/api",
+          browserURL: "https://scanv2-testnet.ancient8.gg"
+        }
       }
     ]
   },
@@ -59,7 +67,13 @@ const config: any = {
       url: 'https://rpc-nebulas-testnet.uniultra.xyz/',
       accounts: [
         `${process.env.PRIVATE_KEY}`
-    ]
+      ]
+    },
+    a8Testnet: {
+      url: 'https://rpcv2-testnet.ancient8.gg',
+      accounts: [
+        `${process.env.PRIVATE_KEY}`
+      ]
     },
   },
   defaultNetwork: "hardhat"
