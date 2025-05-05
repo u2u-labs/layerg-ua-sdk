@@ -13,7 +13,7 @@ abstract contract GAccountPermissions is IAccountPermissions, EIP712 {
 
     bytes32 private constant TYPEHASH =
         keccak256(
-            "SignerPermissionRequest(address signer,uint8 isAdmin,address[] approvedTargets,uint256 nativeTokenLimitPerTransaction,uint128 permissionStartTimestamp,uint128 permissionEndTimestamp,uint128 reqValidityStartTimestamp,uint128 reqValidityEndTimestamp,bytes32 uid)"
+            "SignerPermissionRequest(address signer,uint8 isAdmin,address[] approvedTargets,uint128 permissionStartTimestamp,uint128 permissionEndTimestamp,uint128 reqValidityStartTimestamp,uint128 reqValidityEndTimestamp,bytes32 uid)"
         );
 
     function _onlyAdmin() internal virtual {
@@ -53,7 +53,6 @@ abstract contract GAccountPermissions is IAccountPermissions, EIP712 {
         _accountPermissionsStorage().allSigners.add(targetSigner);
 
         _accountPermissionsStorage().signerPermissions[targetSigner] = SignerPermissionsStatic(
-            _req.nativeTokenLimitPerTransaction,
             _req.permissionStartTimestamp,
             _req.permissionEndTimestamp
         );
@@ -102,7 +101,6 @@ abstract contract GAccountPermissions is IAccountPermissions, EIP712 {
             SignerPermissions(
                 signer,
                 _accountPermissionsStorage().approvedTargets[signer].values(),
-                permissions.nativeTokenLimitPerTransaction,
                 permissions.startTimestamp,
                 permissions.endTimestamp
             );
@@ -130,7 +128,6 @@ abstract contract GAccountPermissions is IAccountPermissions, EIP712 {
             signers[i] = SignerPermissions(
                 signer,
                 _accountPermissionsStorage().approvedTargets[signer].values(),
-                permissions.nativeTokenLimitPerTransaction,
                 permissions.startTimestamp,
                 permissions.endTimestamp
             );
@@ -162,7 +159,6 @@ abstract contract GAccountPermissions is IAccountPermissions, EIP712 {
                 signers[index++] = SignerPermissions(
                     signer,
                     _accountPermissionsStorage().approvedTargets[signer].values(),
-                    permissions.nativeTokenLimitPerTransaction,
                     permissions.startTimestamp,
                     permissions.endTimestamp
                 );
@@ -208,7 +204,6 @@ abstract contract GAccountPermissions is IAccountPermissions, EIP712 {
                 _req.signer,
                 _req.isAdmin,
                 keccak256(abi.encodePacked(_req.approvedTargets)),
-                _req.nativeTokenLimitPerTransaction,
                 _req.permissionStartTimestamp,
                 _req.permissionEndTimestamp,
                 _req.reqValidityStartTimestamp,

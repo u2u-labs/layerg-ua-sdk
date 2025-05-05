@@ -103,12 +103,6 @@ contract GAccountCore is IGAccountCore, Initializable, Multicall, GAccountPermis
                     return false;
                 }
             }
-
-            // Check if the value is within the allowed range.
-            if (permissions.nativeTokenLimitPerTransaction < value) {
-                // Account: value too high OR Account: target not approved.
-                return false;
-            }
         }
         // checking target and value for `executeBatch`
         else if (sig == GAccountExtension.executeBatch.selector) {
@@ -122,14 +116,6 @@ contract GAccountCore is IGAccountCore, Initializable, Multicall, GAccountPermis
                         // If any target is not approved, break the loop.
                         return false;
                     }
-                }
-            }
-
-            // For each target+value pair, check if the value is within the allowed range.
-            for (uint256 i = 0; i < targets.length; i++) {
-                if (permissions.nativeTokenLimitPerTransaction < values[i]) {
-                    // Account: value too high OR Account: target not approved.
-                    return false;
                 }
             }
         } else {
