@@ -1,6 +1,6 @@
 {
   "name": "@layerg-ua-sdk/aa-smc",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
     "clear": "rm -rf dist artifacts cache typechain-types",
     "build": "tsc && npm run postbuild",
     "postbuild": "cp -r artifacts dist/ && cp -r typechain-types dist/",
-      "clear-libs": "rm -rf node_modules",
+    "clear-libs": "rm -rf node_modules",
     "hardhat-compile": "npx hardhat compile",
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",
@@ -43,12 +43,12 @@
     "typescript": "^latest"
   },
   "dependencies": {
+    "@layerg-ua-sdk/aa-utils": "^0.0.11",
     "@openzeppelin/contracts": "^4.9.2",
     "@types/debug": "^4.1.7",
     "@uniswap/v3-periphery": "^1.4.3",
     "bignumber.js": "^9.1.1",
     "debug": "^4.3.4",
-    "dotenv": "^16.3.1",
-    "@layerg-ua-sdk/aa-utils": "^0.0.10"
+    "dotenv": "^16.3.1"
   }
 }
