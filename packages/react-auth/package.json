@@ -39,6 +39,7 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.75.2",
     "@wagmi/core": "^2.17.1",
     "clsx": "^2.1.1",
     "ethers": "^6.13.7",
