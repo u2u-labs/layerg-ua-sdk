@@ -87,18 +87,29 @@ export abstract class BaseAccountAPI {
      * check if the contract is already deployed.
      */
     async checkAccountPhantom(): Promise<boolean> {
-        if (!this.isPhantom) {
-            // already deployed. no need to check anymore.
-            return this.isPhantom
+        try {
+            const accountAddress = await this.getAccountAddress();
+            
+            // Get code at the account address
+            const senderAddressCode = await this.provider.getCode(accountAddress);
+            
+            // Log the result for debugging
+            if (senderAddressCode !== '0x' && senderAddressCode !== '0x0') {
+                this.isPhantom = false;
+            } else {
+                this.isPhantom = true;
+            }
+
+            return this.isPhantom;
+        } catch (error) {
+            console.error(`Error checking account phantom status: ${error}`);
+            // Default to assuming it's a phantom if there's an error
+            // This is safer as we'll attempt to deploy
+            return true;
         }
-        const senderAddressCode = await this.provider.getCode(this.getAccountAddress())
-        if (senderAddressCode.length > 2) {
-            // console.log(`SimpleAccount Contract already deployed at ${this.senderAddress}`)
-            this.isPhantom = false
-        } else {
-            // console.log(`SimpleAccount Contract is NOT YET deployed at ${this.senderAddress} - working in "phantom account" mode.`)
-        }
-        return this.isPhantom
+
+
+
     }
 
     /**
@@ -123,10 +134,21 @@ export abstract class BaseAccountAPI {
      * (either factory and factoryData, or null hex if contract already deployed)
      */
     async getRequiredFactoryData(): Promise<FactoryParams | null> {
-        if (await this.checkAccountPhantom()) {
-            return await this.getFactoryData()
+        const isPhantom = await this.checkAccountPhantom();
+        if (isPhantom) {
+            // Double-check with a direct code query to be sure
+            const address = await this.getAccountAddress();
+            const code = await this.provider.getCode(address);
+            
+            if (code.length > 2) {
+                this.isPhantom = false;
+                return null;
+            }
+            return await this.getFactoryData();
         }
-        return null
+        
+        return null;
+    
     }
 
     /**

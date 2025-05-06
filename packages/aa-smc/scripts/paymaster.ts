@@ -3,8 +3,8 @@ import hre from "hardhat";
 
 async function main() {
   let tx;
-  const _entryPoint = "0x06654388c0E9eCdbA6c8B187590041b6C909C86E"
-  const _verifyingSigner = "0x13ddb633924e5bC7C4F4983bCE25497e62F1e32D"
+  const _entryPoint = "0x803Cf2b820bcE4774DdfeB5CA13169Ef96fAc0d7"
+  const _verifyingSigner = "0x556180984Ec8B4d28476376f99A071042f262a5c"
 
   const VerifyingPaymaster = await ethers.getContractFactory("VerifyingPaymaster");
   const verifyingPaymaster = await VerifyingPaymaster.deploy(_entryPoint, _verifyingSigner); // Deploy the contract
@@ -32,3 +32,6 @@ main().catch((error) => {
 // VerifyingPaymaster deployed to 0x031667b7B91BF06CA2C6aaE760308EEdD34bd6F4
 
 // VerifyingPaymaster deployed to 0xe61F121cD0F4fAE6Fa3f6889539bc34dFa6F69C4
+
+
+// VerifyingPaymaster deployed to 0xC150d2Dc3E0C91579352B47bEDcD4482Aa60aeCd -- A8

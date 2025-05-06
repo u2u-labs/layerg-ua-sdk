@@ -56,7 +56,7 @@ export class DeterministicDeployer {
   }
 
   async deployFactory (): Promise<void> {
-    if (await this.isContractDeployed(DeterministicDeployer.proxyAddress)) {
+    if (await this.isContractDeployed( DeterministicDeployer.proxyAddress)) {
       return
     }
     const bal = await this.provider.getBalance(DeterministicDeployer.deploymentSignerAddress)
