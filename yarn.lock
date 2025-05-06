@@ -967,6 +967,53 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@layerg-ua-sdk/aa-sdk@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@layerg-ua-sdk/aa-sdk/-/aa-sdk-0.0.12.tgz#29e66738bc383c5c9a92bc173e9245d20212bc11"
+  integrity sha512-iqfN5MZNZ16UcICZr/9kmLHfsd4D4rOi7etQtlhQjW0MqIn7p/RDD1tT0SQ2xt+iT1q5kAhUtW23FmNNGCrdfA==
+  dependencies:
+    "@ethersproject/abstract-signer" "^5.7.0"
+    "@ethersproject/networks" "^5.7.0"
+    "@ethersproject/properties" "^5.7.0"
+    "@ethersproject/providers" "^5.7.0"
+    "@layerg-ua-sdk/aa-smc" "^0.0.12"
+    "@layerg-ua-sdk/aa-utils" "^0.0.12"
+    "@types/debug" "^4.1.7"
+    axios "^1.7.9"
+    debug "^4.3.4"
+    ethers "^5.7.0"
+
+"@layerg-ua-sdk/aa-smc@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@layerg-ua-sdk/aa-smc/-/aa-smc-0.0.12.tgz#5f217ce69cc32ef075712fe335f9d2b0311f43e6"
+  integrity sha512-yy9QAZXWK1PgLT/F9mUIMjU+qA16xySpgw1NBudSd5Ku3QBP2sxWqiGnRDiY+oM0zlmL/G7K/GL/mQADbt3gDg==
+  dependencies:
+    "@layerg-ua-sdk/aa-utils" "^0.0.12"
+    "@openzeppelin/contracts" "^4.9.2"
+    "@types/debug" "^4.1.7"
+    "@uniswap/v3-periphery" "^1.4.3"
+    bignumber.js "^9.1.1"
+    debug "^4.3.4"
+    dotenv "^16.3.1"
+
+"@layerg-ua-sdk/aa-utils@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@layerg-ua-sdk/aa-utils/-/aa-utils-0.0.12.tgz#d79df448a8f21315990fa79dd2a71c5028425b93"
+  integrity sha512-vqI3fk0RL0meOpsS4aptewCZOGrYdc4FCtVRJmcfX/v108WCY9K9vyjO4/jvlZLOQcsBRYj2Ikg9AKCjflWojA==
+  dependencies:
+    "@ethereumjs/util" "10.0.0-alpha.1"
+    "@ethersproject/abi" "^5.7.0"
+    "@ethersproject/abstract-provider" "^5.7.0"
+    "@ethersproject/abstract-signer" "^5.7.0"
+    "@ethersproject/keccak256" "^5.7.0"
+    "@ethersproject/providers" "^5.7.0"
+    "@layerg-ua-sdk/aa-smc" "^0.0.12"
+    "@openzeppelin/contracts" "^5.0.1"
+    debug "^4.3.4"
+    ethereumjs-util "^7.1.5"
+    ethers "^5.7.0"
+    rlp "^3.0.0"
+
 "@lerna/create@8.1.9":
   version "8.1.9"
   resolved "https://registry.yarnpkg.com/@lerna/create/-/create-8.1.9.tgz#6ab7b8514a9a200a4bacb7fa6cf6f01d82d3a154"
@@ -3712,6 +3759,15 @@ axios@^1.5.1, axios@^1.7.4, axios@^1.7.9:
   version "1.7.9"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.9.tgz#d7d071380c132a24accda1b2cfc1535b79ec650a"
   integrity sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==
+  dependencies:
+    follow-redirects "^1.15.6"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
+
+axios@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.9.0.tgz#25534e3b72b54540077d33046f77e3b8d7081901"
+  integrity sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
