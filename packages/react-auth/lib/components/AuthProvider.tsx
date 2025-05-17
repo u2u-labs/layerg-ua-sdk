@@ -7,6 +7,7 @@ import { AuthContext, AuthContextType } from '../context/AuthContext';
 interface Props {
   appId: string;
   apiKey: string;
+  privateKey: string;
   authUrl: string;
   children: any;
 }
@@ -25,6 +26,7 @@ const queryClient = new QueryClient({
 export const LayerGAuthProvider = ({
   appId,
   apiKey,
+  privateKey,
   authUrl,
   children,
 }: Props) => {
@@ -163,6 +165,7 @@ export const LayerGAuthProvider = ({
     logout,
     appId,
     apiKey,
+    privateKey,
     authUrl,
     isOpenLoginPopup,
     toggleOpenLoginPopup,

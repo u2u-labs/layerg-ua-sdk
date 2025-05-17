@@ -1,3 +1,5 @@
+import { LayerGAPI } from '@layerg-ua-sdk/aa-sdk';
+import axios from 'axios';
 import clsx from 'clsx';
 import { ButtonHTMLAttributes, FC, useMemo } from 'react';
 import { isMobile, isTablet } from 'react-device-detect';
@@ -6,6 +8,7 @@ import IconTelegram from '../assets/images/icon-telegram.webp';
 import IconX from '../assets/images/icon-x.webp';
 import '../assets/styles/login-ui.scss';
 import IconGoogle from '../assets/svg/icon-google.svg';
+import { useAuth } from '../main';
 
 interface Props {
   title?: string;
@@ -63,6 +66,7 @@ export const LoginUI = ({
   className = '',
 }: Props) => {
   const { connectors } = useConnect();
+  const { authUrl, apiKey, privateKey } = useAuth();
 
   const listWallet = useMemo(() => {
     // let okxDeepLink = '';
@@ -233,9 +237,48 @@ export const LoginUI = ({
                     icon={icon}
                     // disabled={mutationGenerateProviderAuth.isPending}
                     onClick={async () => {
-                      // mutationGenerateProviderAuth.mutate({
-                      //   providerType: type.toUpperCase(),
-                      // });
+                      try {
+                        let urlCall = `/auth/${type}`;
+
+                        switch (type) {
+                          case 'telegram':
+                            urlCall = '/auth/telegram-login';
+                            break;
+
+                          default:
+                            break;
+                        }
+
+                        const layerGAPI = new LayerGAPI({
+                          apiKey,
+                          secretKey: privateKey,
+                          origin: window?.location?.origin,
+                        });
+
+                        const now = Date.now() - 1000;
+
+                        const signature = await layerGAPI.createSignature(now);
+
+                        const headers = {
+                          'x-signature': signature.signature,
+                          'x-timestamp': signature.timestamp,
+                          'x-api-key': apiKey,
+                          origin: window?.location?.origin,
+                        };
+
+                        axios({
+                          baseURL: authUrl,
+                          url: urlCall,
+                          method: 'GET',
+                          headers,
+                        }).then((res) => {
+                          if (res.headers?.location) {
+                            window.open(res.headers?.location, '_self');
+                          }
+                        });
+                      } catch (error) {
+                        console.error('Provider Authenticate Error: ', error);
+                      }
                     }}
                   />
                 );

@@ -18,8 +18,7 @@ export const LoginPopup = ({
   onClose = undefined,
   // onSuccess = undefined,
   title,
-}: // logoUrl,
-Props) => {
+}: Props) => {
   const { isOpen: isOpenPopup, closeLoginPopup } = useLoginPopup();
 
   const isOpenReal = useMemo(() => {
