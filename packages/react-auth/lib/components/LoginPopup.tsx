@@ -1,8 +1,8 @@
-import { ReactNode, useMemo } from "react";
-import ReactDOM from "react-dom";
-import "../assets/styles/login-popup.scss";
-import { useLoginPopup } from "../hooks/useLoginPopup";
-import { LoginUI } from "./LoginUI";
+import { ReactNode, useMemo } from 'react';
+import ReactDOM from 'react-dom';
+import '../assets/styles/login-popup.scss';
+import { useLoginPopup } from '../hooks/useLoginPopup';
+import { LoginUI } from './LoginUI';
 
 interface Props {
   isOpen?: boolean;
@@ -18,8 +18,7 @@ export const LoginPopup = ({
   onClose = undefined,
   // onSuccess = undefined,
   title,
-}: // logoUrl,
-Props) => {
+}: Props) => {
   const { isOpen: isOpenPopup, closeLoginPopup } = useLoginPopup();
 
   const isOpenReal = useMemo(() => {
@@ -31,7 +30,7 @@ Props) => {
   }, [isOpen, isOpenPopup]);
 
   const handleOnClose = () => {
-    if (typeof onClose !== "undefined") {
+    if (typeof onClose !== 'undefined') {
       onClose();
     } else {
       closeLoginPopup();
@@ -49,7 +48,7 @@ Props) => {
   return ReactDOM.createPortal(
     <div
       style={{
-        display: isOpenReal ? "flex" : "none",
+        display: isOpenReal ? 'flex' : 'none',
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget) handleOnClose();
@@ -58,29 +57,29 @@ Props) => {
     >
       <div
         className="layerg-login-popup-block"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            background: "none",
-            border: "none",
-            fontSize: "20px",
-            cursor: "pointer",
-          }}
-          onClick={handleOnClose}
-        >
-          ✕
+        <div className="layerg-login-popup-content">
+          <div
+            className="layerg-login-popup-btn-close"
+            onClick={(e) => {
+              e.stopPropagation();
+
+              handleOnClose();
+            }}
+          >
+            ✕
+          </div>
+          <LoginUI
+            // onSuccess={handleSuccess}
+            title={title}
+            // logoUrl={logoUrl}
+          />
         </div>
-        <LoginUI
-          // onSuccess={handleSuccess}
-          title={title}
-          // logoUrl={logoUrl}
-        />
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

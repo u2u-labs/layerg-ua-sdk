@@ -1,13 +1,13 @@
 {
   "name": "@layerg-ua-sdk/aa-smc",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "clear": "rm -rf dist artifacts cache typechain-types",
     "build": "tsc && npm run postbuild",
-    "postbuild": "cp -r artifacts dist/",
+    "postbuild": "cp -r artifacts dist/ && cp -r typechain-types dist/",
     "clear-libs": "rm -rf node_modules",
     "hardhat-compile": "npx hardhat compile",
     "compile": "npx hardhat compile",
@@ -16,11 +16,12 @@
     "attack": "npx hardhat run scripts/attack.ts --network nebulas",
     "whitelist": "npx hardhat run scripts/whitelist.ts --network nebulas",
     "size": "npx hardhat size-contracts",
-    "deploy-paymaster": "npx hardhat run scripts/paymaster.ts --network nebulas",
+    "deploy-paymaster": "npx hardhat run scripts/paymaster.ts --network a8Testnet",
     "deploy-entrypoint": "npx hardhat run scripts/entrypoint.ts --network solaris",
     "deploy-simple-factory": "npx hardhat run scripts/simple-factory.ts --network nebulas",
     "deploy-g-factory": "npx hardhat run scripts/g-factory.ts --network nebulas",
-    "deploy-s-paymaster": "npx hardhat run scripts/singleton-paymaster.ts --network nebulas"
+    "deploy-s-paymaster": "npx hardhat run scripts/singleton-paymaster.ts --network nebulas",
+    "deploy-deterministic": "npx hardhat run scripts/deterministic.ts --network a8Testnet"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
@@ -42,6 +43,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@layerg-ua-sdk/aa-utils": "^0.0.12",
     "@openzeppelin/contracts": "^4.9.2",
     "@types/debug": "^4.1.7",
     "@uniswap/v3-periphery": "^1.4.3",

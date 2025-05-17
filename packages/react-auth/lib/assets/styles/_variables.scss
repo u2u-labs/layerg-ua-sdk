@@ -1,0 +1,43 @@
+@mixin theme($theme: DarkGray) {
+  background: $theme;
+  box-shadow: 0 0 1px rgba($theme, 0.25);
+  color: #fff;
+}
+
+// %message-shared {
+//   border: 1px solid #ccc;
+//   padding: 10px;
+//   color: #333;
+// }
+@mixin tablet {
+}
+
+@mixin text-sm {
+  font-size: 0.875rem /* 14px */;
+  line-height: 1.25rem /* 20px */;
+}
+
+@mixin text-base {
+  font-size: 1rem /* 16px */;
+  line-height: 1.5rem /* 24px */;
+}
+
+@mixin text-xl {
+  font-size: 1.25rem /* 20px */;
+  line-height: 1.75rem /* 28px */;
+}
+
+@mixin text-2xl {
+  font-size: 1.5rem /* 24px */;
+  line-height: 2rem /* 32px */;
+}
+
+@mixin text-3xl {
+  font-size: 1.875rem /* 30px */;
+  line-height: 2.25rem /* 36px */;
+}
+
+@mixin text-4xl {
+  font-size: 2.25rem /* 36px */;
+  line-height: 2.5rem /* 40px */;
+}

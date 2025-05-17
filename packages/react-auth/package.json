@@ -39,10 +39,20 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "@layerg-ua-sdk/aa-sdk": "^0.0.12",
+    "@layerg-ua-sdk/aa-smc": "^0.0.12",
+    "@layerg-ua-sdk/aa-utils": "^0.0.12",
+    "@tanstack/react-query": "^5.75.2",
+    "@wagmi/core": "^2.17.1",
+    "axios": "^1.9.0",
     "clsx": "^2.1.1",
+    "ethers": "5.7.0",
     "react": "^19.1.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^19.1.0",
-    "vite": "^6.3.3"
+    "viem": "^2.29.0",
+    "vite": "^6.3.3",
+    "wagmi": "^2.15.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.1",

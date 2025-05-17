@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export interface User {
   id: string;
@@ -17,6 +17,7 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   appId: string;
   apiKey: string;
+  privateKey: string;
   authUrl: string;
 
   isOpenLoginPopup: boolean;

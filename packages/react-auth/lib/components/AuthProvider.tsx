@@ -1,16 +1,32 @@
-import { useEffect, useState } from "react";
-import { AuthContext, AuthContextType } from "../context/AuthContext";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { WagmiProvider } from 'wagmi';
+import wagmiConfig from '../config/wagmi';
+import { AuthContext, AuthContextType } from '../context/AuthContext';
 
 interface Props {
   appId: string;
   apiKey: string;
+  privateKey: string;
   authUrl: string;
   children: any;
 }
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+    mutations: {
+      retry: false,
+    },
+  },
+});
+
 export const LayerGAuthProvider = ({
   appId,
   apiKey,
+  privateKey,
   authUrl,
   children,
 }: Props) => {
@@ -31,7 +47,7 @@ export const LayerGAuthProvider = ({
         setIsLoading(true);
 
         // Check for existing session (e.g., from localStorage or cookie)
-        const token = localStorage.getItem("layerg_auth_token");
+        const token = localStorage.getItem('layerg_auth_token');
 
         if (token) {
           // Validate token and get user data
@@ -40,10 +56,10 @@ export const LayerGAuthProvider = ({
           setIsAuthenticated(true);
         }
       } catch (err: any) {
-        console.error("Failed to initialize auth:", err);
+        console.error('Failed to initialize auth:', err);
         setError(err.message);
         // Clear any invalid tokens
-        localStorage.removeItem("layerg_auth_token");
+        localStorage.removeItem('layerg_auth_token');
       } finally {
         setIsLoading(false);
       }
@@ -57,13 +73,13 @@ export const LayerGAuthProvider = ({
     const response = await fetch(`${authUrl}/api/user`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "x-app-id": appId,
-        "x-api-key": apiKey,
+        'x-app-id': appId,
+        'x-api-key': apiKey,
       },
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch user data");
+      throw new Error('Failed to fetch user data');
     }
 
     return response.json();
@@ -75,24 +91,24 @@ export const LayerGAuthProvider = ({
       setIsLoading(true);
 
       const response = await fetch(`${authUrl}/api/login`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "x-app-id": appId,
-          "x-api-key": apiKey,
+          'Content-Type': 'application/json',
+          'x-app-id': appId,
+          'x-api-key': apiKey,
         },
         body: JSON.stringify(credentials),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
+        throw new Error(errorData.message || 'Login failed');
       }
 
       const { token, userData } = await response.json();
 
       // Store token
-      localStorage.setItem("layerg_auth_token", token);
+      localStorage.setItem('layerg_auth_token', token);
 
       // Update state
       setUser(userData);
@@ -113,27 +129,27 @@ export const LayerGAuthProvider = ({
     try {
       setIsLoading(true);
 
-      const token = localStorage.getItem("layerg_auth_token");
+      const token = localStorage.getItem('layerg_auth_token');
 
       if (token) {
         await fetch(`${authUrl}/api/logout`, {
-          method: "POST",
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-app-id": appId,
-            "x-api-key": apiKey,
+            'x-app-id': appId,
+            'x-api-key': apiKey,
           },
         });
       }
 
       // Clear token
-      localStorage.removeItem("layerg_auth_token");
+      localStorage.removeItem('layerg_auth_token');
 
       // Update state
       setUser(null);
       setIsAuthenticated(false);
     } catch (err) {
-      console.error("Logout error:", err);
+      console.error('Logout error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -149,12 +165,19 @@ export const LayerGAuthProvider = ({
     logout,
     appId,
     apiKey,
+    privateKey,
     authUrl,
     isOpenLoginPopup,
     toggleOpenLoginPopup,
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </WagmiProvider>
+    </AuthContext.Provider>
   );
 };

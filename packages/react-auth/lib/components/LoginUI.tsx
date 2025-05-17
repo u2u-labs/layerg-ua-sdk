@@ -1,18 +1,189 @@
-import clsx from "clsx";
+import { LayerGAPI } from '@layerg-ua-sdk/aa-sdk';
+import axios from 'axios';
+import clsx from 'clsx';
+import { ButtonHTMLAttributes, FC, useMemo } from 'react';
+import { isMobile, isTablet } from 'react-device-detect';
+import { Connector, useConnect } from 'wagmi';
+import IconTelegram from '../assets/images/icon-telegram.webp';
+import IconX from '../assets/images/icon-x.webp';
+import '../assets/styles/login-ui.scss';
+import IconGoogle from '../assets/svg/icon-google.svg';
+import { useAuth } from '../main';
 
 interface Props {
   title?: string;
   description?: string;
   className?: string;
-  socialProviders?: ("google" | "twitter" | "github")[];
+  socialProviders?: ('google' | 'twitter' | 'github')[];
 }
+
+interface DataWallet {
+  id: string;
+  icon: string;
+  type: 'wallet' | 'google' | 'twitter' | 'telegram';
+  connector?: Connector;
+  name?: string;
+  deepLink?: string;
+}
+
+interface ButtonWalletProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  icon: string;
+  title: string;
+}
+
+const ButtonWallet: FC<ButtonWalletProps> = (props) => {
+  const { icon, title, ...buttonProps } = props;
+
+  return (
+    <button
+      type="button"
+      {...buttonProps}
+      className={clsx('layerg-login-ui-provider-btn', buttonProps.className)}
+    >
+      {/* Background */}
+      <div className={clsx('layerg-login-ui-provider-btn-background')} />
+
+      {/* Icon */}
+      {icon && (
+        <div className="layerg-login-ui-provider-btn-icon">
+          <img src={icon} alt={title} />
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="layerg-login-ui-provider-btn-content">
+        <h4>{title}</h4>
+        {/* <p className="text-sm">Using a browser extension</p> */}
+      </div>
+    </button>
+  );
+};
 
 export const LoginUI = ({
   // socialProviders = ["google", "twitter", "github"],
-  // title = "Sign in to your account",
-  // description = undefined,
-  className = "",
+  title = 'Sign in to your account',
+  description = 'Select your Provider',
+  className = '',
 }: Props) => {
+  const { connectors } = useConnect();
+  const { authUrl, apiKey, privateKey } = useAuth();
+
+  const listWallet = useMemo(() => {
+    // let okxDeepLink = '';
+    // let bitgetDeepLink = '';
+    // let metaMaskDeepLink = '';
+
+    // if (typeof window !== 'undefined') {
+    //   const location = window.location;
+
+    //   // okxDeepLink =
+    //   //   'https://www.okx.com/download?deeplink=' +
+    //   //   encodeURIComponent(
+    //   //     'okx://wallet/dapp/url?dappUrl=' +
+    //   //       encodeURIComponent(`${location.origin}/`),
+    //   //   );
+
+    //   // bitgetDeepLink = `bitkeep://bkconnect?action=dapp&url=${encodeURIComponent(`${location.origin}/`)}`;
+
+    //   metaMaskDeepLink = `https://metamask.app.link/dapp/${location.origin}`;
+    // }
+
+    let result: DataWallet[] = [
+      {
+        id: 'telegram',
+        icon: IconTelegram,
+        type: 'telegram',
+        name: 'Login With Telegram',
+      },
+      {
+        id: 'google',
+        icon: IconGoogle,
+        type: 'google',
+        name: 'Login With Google',
+      },
+      {
+        id: 'x',
+        icon: IconX,
+        type: 'twitter',
+        name: 'Login With X',
+      },
+      // {
+      //   id: 'injectedWallet',
+      //   icon: <ImageBase.IconInjectedWallet className="w-full h-auto" />,
+      //   type: 'wagmi',
+      //   connector: connectors?.[1],
+      //   name: 'Injected Wallet',
+      // },
+      // {
+      //   id: 'metaMask',
+      //   icon: <ImageBase.IconMetaMask className="w-full h-auto" />,
+      //   type: 'wagmi',
+      //   connector: connectors?.[0],
+      //   name: 'MetaMask',
+      //   deepLink: metaMaskDeepLink,
+      // },
+      // {
+      //   id: 'walletConnect',
+      //   icon: <ImageBase.IconWalletConnect className="w-full h-auto" />,
+      //   type: 'wagmi',
+      //   connector: connectors?.[connectors.length - 1],
+      //   name: 'WalletConnect',
+      // },
+      // {
+      //   id: walletConnectWallet({ projectId }).id,
+      //   icon: <ImageBase.IconWalletConnect className="w-full h-auto" />,
+      //   type: 'rainbow',
+      // },
+    ];
+
+    // Use In Dapp
+    if (isMobile || isTablet) {
+      const ua = navigator.userAgent;
+
+      const listDapp: string[] = [];
+      result.forEach((item) => {
+        let isInApp = false;
+        switch (item.id) {
+          // case okxWallet({ projectId }).id:
+          //   isInApp = /OKApp/i.test(ua);
+          //   break;
+          // case bitgetWallet({ projectId }).id:
+          //   isInApp = /BitKeep/i.test(ua);
+          //   break;
+          case 'metaMask':
+            isInApp = /MetaMask/i.test(ua);
+            break;
+
+          default:
+            break;
+        }
+
+        if (isInApp) {
+          listDapp.push(item.id);
+        }
+      });
+
+      // Use For U2U Wallet and Trust Wallet
+      // if (window?.ethereum?.isTrust && listDapp.length === 0) {
+      //   listDapp.push('injectedWallet');
+      // }
+
+      if (listDapp.length === 0) {
+        listDapp.push(
+          // 'injectedWallet',
+          // 'walletConnect',
+          'x',
+          'telegram',
+          'google',
+        );
+        // listDapp.push('injectedWallet', walletConnectWallet({ projectId }).id);
+      }
+
+      result = result.filter((item) => listDapp.some((x) => x === item.id));
+    }
+
+    return result;
+  }, [connectors, isMobile, isTablet]);
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
   // const [showPassword, setShowPassword] = useState(false);
@@ -42,10 +213,83 @@ export const LoginUI = ({
 
   return (
     // <div className={`flex items-center justify-center ${customClassName}`}>
-    <div className={clsx("layerg-login-popup", className)}>
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        sdfsdfsdf
-        {/* {logoUrl && (
+    <div className={clsx('layerg-login-ui-block', className)}>
+      <div className="layerg-login-ui-header">
+        <h3 className="layerg-login-ui-header-title">{title}</h3>
+
+        <p>{description}</p>
+      </div>
+
+      <div className="layerg-login-ui-provider-block">
+        <div className="layerg-login-ui-provider-content">
+          {listWallet.map((item) => {
+            const key = `wallet-${item.id}`;
+            const { icon, type } = item;
+
+            switch (type) {
+              case 'google':
+              case 'telegram':
+              case 'twitter':
+                return (
+                  <ButtonWallet
+                    key={key}
+                    title={item.name ?? ''}
+                    icon={icon}
+                    // disabled={mutationGenerateProviderAuth.isPending}
+                    onClick={async () => {
+                      try {
+                        let urlCall = `/auth/${type}`;
+
+                        switch (type) {
+                          case 'telegram':
+                            urlCall = '/auth/telegram-login';
+                            break;
+
+                          default:
+                            break;
+                        }
+
+                        const layerGAPI = new LayerGAPI({
+                          apiKey,
+                          secretKey: privateKey,
+                          origin: window?.location?.origin,
+                        });
+
+                        const now = Date.now() - 1000;
+
+                        const signature = await layerGAPI.createSignature(now);
+
+                        const headers = {
+                          'x-signature': signature.signature,
+                          'x-timestamp': signature.timestamp,
+                          'x-api-key': apiKey,
+                          origin: window?.location?.origin,
+                        };
+
+                        axios({
+                          baseURL: authUrl,
+                          url: urlCall,
+                          method: 'GET',
+                          headers,
+                        }).then((res) => {
+                          if (res.headers?.location) {
+                            window.open(res.headers?.location, '_self');
+                          }
+                        });
+                      } catch (error) {
+                        console.error('Provider Authenticate Error: ', error);
+                      }
+                    }}
+                  />
+                );
+
+              default:
+                return '';
+            }
+          })}
+        </div>
+      </div>
+      {/* {logoUrl && (
           <div className="flex justify-center">
             <img src={logoUrl} alt="Logo" className="h-12" />
           </div>
@@ -251,7 +495,6 @@ export const LoginUI = ({
             </div>
           </div>
         )} */}
-      </div>
     </div>
   );
 };
