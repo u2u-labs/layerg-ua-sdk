@@ -1,6 +1,6 @@
 {
   "name": "@layerg-ua-sdk/aa-smc",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -43,7 +43,7 @@
     "typescript": "^latest"
   },
   "dependencies": {
-    "@layerg-ua-sdk/aa-utils": "^0.0.12",
+    "@layerg-ua-sdk/aa-utils": "^0.0.13",
     "@openzeppelin/contracts": "^4.9.2",
     "@types/debug": "^4.1.7",
     "@uniswap/v3-periphery": "^1.4.3",

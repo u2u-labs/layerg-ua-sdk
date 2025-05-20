@@ -1,6 +1,6 @@
 {
   "name": "@layerg-ua-sdk/aa-validation",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "publishConfig": {
     "access": "public"
   },
@@ -17,8 +17,8 @@
     "typescript": "^latest"
   },
   "dependencies": {
-    "@layerg-ua-sdk/aa-sdk": "^0.0.12",
-    "@layerg-ua-sdk/aa-utils": "^0.0.12"
+    "@layerg-ua-sdk/aa-sdk": "^0.0.13",
+    "@layerg-ua-sdk/aa-utils": "^0.0.13"
   },
   "gitHead": "6955bc66656ad86a66eae9ba543808588d91a59d"
 }
