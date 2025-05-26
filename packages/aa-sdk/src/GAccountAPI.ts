@@ -20,7 +20,7 @@ export class GAccountAPI extends BaseAccountAPI {
     constructor(params: GAccountApiParams) {
         super(params)
         this.factoryAddress = params.factoryAddress
-        this.projectApiKey = params.projectApiKey ? params.projectApiKey.startsWith('0x') ? params.projectApiKey : `0x${params.projectApiKey}` : '';
+        this.projectApiKey = params.projectApiKey
         this.walletId = params.walletId;
     }
 
@@ -36,7 +36,7 @@ export class GAccountAPI extends BaseAccountAPI {
                 throw new Error('no factory to get initCode')
             }
         }
-        const indexBytes = ethers.utils.defaultAbiCoder.encode(['address', 'address', 'string'], [this.factoryAddress, this.projectApiKey, this.walletId]); // Convert index to bytes  
+        const indexBytes = ethers.utils.defaultAbiCoder.encode(['address', 'string', 'string'], [this.factoryAddress, this.projectApiKey, this.walletId]); // Convert index to bytes  
 
         return {
             factory: this.factory.address,
