@@ -1,27 +1,34 @@
-import { createContext } from 'react';
-
-export interface User {
-  id: string;
-  name?: string;
-  email: string;
-  profilePicture?: string;
-  [key: string]: any;
-}
+import { createContext, SetStateAction } from 'react';
+import { ApiVersion } from '../components/AuthProvider';
+import { AuthWalletLoginProps } from '../main';
+import { AuthResponse, UserResponse } from '../types/auth';
 
 export interface AuthContextType {
-  user: User | null;
+  user: UserResponse | null;
   isAuthenticated: boolean;
+  toggleLoading: (val?: boolean) => void;
   isLoading: boolean;
-  error: string | null;
-  login: (credentials: { email: string; password: string }) => Promise<User>;
+  toggleAuthenticated: (val?: boolean) => void;
+  error: any;
+  setError: SetStateAction<any>;
+  login: (val: {
+    code: string;
+    state: string;
+    type: 'google' | 'twitter' | 'facebook';
+    error?: string;
+  }) => Promise<void>;
+  walletLogin: (val: AuthWalletLoginProps) => Promise<void>;
+  data: AuthResponse | null;
   logout: () => Promise<void>;
-  appId: string;
   apiKey: string;
-  privateKey: string;
-  authUrl: string;
+  apiUrl: string;
+  apiVersion: ApiVersion;
+  baseApiUrl: string;
+
+  telegramAuthUrl: string;
 
   isOpenLoginPopup: boolean;
-  toggleOpenLoginPopup: (val: boolean) => void;
+  toggleOpenLoginPopup: (val?: boolean) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);

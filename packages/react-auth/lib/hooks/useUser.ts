@@ -1,11 +1,11 @@
-import { useAuth } from './useAuth';
+import { useAuthProvider } from './useAuth';
 
 export const useUser = () => {
-  const { user, isAuthenticated, isLoading } = useAuth();
-  
+  const { user, isAuthenticated, isLoading } = useAuthProvider();
+
   return {
     user,
     isAuthenticated,
-    isLoading
+    isLoading,
   };
 };

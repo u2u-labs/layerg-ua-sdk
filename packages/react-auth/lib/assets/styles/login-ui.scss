@@ -99,6 +99,11 @@
       &-icon {
         position: relative;
         width: 3.25rem /* 52px */;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
       }
 
       &-content {

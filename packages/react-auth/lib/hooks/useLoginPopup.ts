@@ -1,8 +1,7 @@
-// src/hooks/useLoginPopup.ts
-import { useAuth } from "./useAuth";
+import { useAuthProvider } from './useAuth';
 
 export const useLoginPopup = () => {
-  const { isOpenLoginPopup, toggleOpenLoginPopup } = useAuth();
+  const { isOpenLoginPopup, toggleOpenLoginPopup } = useAuthProvider();
 
   const openLoginPopup = () => toggleOpenLoginPopup(true);
   const closeLoginPopup = () => toggleOpenLoginPopup(false);

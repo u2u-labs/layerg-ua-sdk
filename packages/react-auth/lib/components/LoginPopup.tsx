@@ -45,41 +45,47 @@ export const LoginPopup = ({
   //   handleOnClose();
   // };
 
-  return ReactDOM.createPortal(
-    <div
-      style={{
-        display: isOpenReal ? 'flex' : 'none',
-      }}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) handleOnClose();
-      }}
-      className="layerg-login-popup-background"
-    >
+  return (
+    typeof document !== 'undefined' &&
+    typeof window !== 'undefined' &&
+    ReactDOM.createPortal(
       <div
-        className="layerg-login-popup-block"
-        onClick={(e) => {
-          e.stopPropagation();
+        style={{
+          display: isOpenReal ? 'flex' : 'none',
         }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) handleOnClose();
+        }}
+        className="layerg-login-popup-background"
       >
-        <div className="layerg-login-popup-content">
-          <div
-            className="layerg-login-popup-btn-close"
-            onClick={(e) => {
-              e.stopPropagation();
+        <div
+          className="layerg-login-popup-block"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div className="layerg-login-popup-content">
+            <div
+              className="layerg-login-popup-btn-close"
+              onClick={(e) => {
+                e.stopPropagation();
 
-              handleOnClose();
-            }}
-          >
-            ✕
+                handleOnClose();
+              }}
+            >
+              ✕
+            </div>
+            <LoginUI
+              // onSuccess={handleSuccess}
+              title={title}
+              // logoUrl={logoUrl}
+            />
           </div>
-          <LoginUI
-            // onSuccess={handleSuccess}
-            title={title}
-            // logoUrl={logoUrl}
-          />
         </div>
-      </div>
-    </div>,
-    document.body,
+      </div>,
+      document.body,
+    )
   );
+
+  return;
 };
