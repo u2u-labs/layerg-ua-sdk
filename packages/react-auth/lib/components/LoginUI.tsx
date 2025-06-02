@@ -1,14 +1,21 @@
-import { LayerGAPI } from '@layerg-ua-sdk/aa-sdk';
-import axios from 'axios';
+import axios, { Method } from 'axios';
 import clsx from 'clsx';
 import { ButtonHTMLAttributes, FC, useMemo } from 'react';
 import { isMobile, isTablet } from 'react-device-detect';
-import { Connector, useConnect } from 'wagmi';
+import {
+  Connector,
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useSignMessage,
+} from 'wagmi';
 import IconTelegram from '../assets/images/icon-telegram.webp';
 import IconX from '../assets/images/icon-x.webp';
 import '../assets/styles/login-ui.scss';
 import IconGoogle from '../assets/svg/icon-google.svg';
-import { useAuth } from '../main';
+import IconMetaMask from '../assets/svg/icon-metamask.svg';
+import IconWalletConnect from '../assets/svg/icon-wallet-connect.svg';
+import { useAuthProvider } from '../hooks/useAuth';
 
 interface Props {
   title?: string;
@@ -65,28 +72,39 @@ export const LoginUI = ({
   description = 'Select your Provider',
   className = '',
 }: Props) => {
-  const { connectors } = useConnect();
-  const { authUrl, apiKey, privateKey } = useAuth();
+  const {
+    apiKey,
+    baseApiUrl,
+    telegramAuthUrl,
+    walletLogin,
+    toggleLoading,
+    setError,
+  } = useAuthProvider();
+
+  const { address, isConnected, connector: currentConnector } = useAccount();
+  const { connectors, connectAsync } = useConnect();
+  const { disconnectAsync } = useDisconnect();
+  const { signMessageAsync: onSignMessage } = useSignMessage();
 
   const listWallet = useMemo(() => {
     // let okxDeepLink = '';
     // let bitgetDeepLink = '';
-    // let metaMaskDeepLink = '';
+    let metaMaskDeepLink = '';
 
-    // if (typeof window !== 'undefined') {
-    //   const location = window.location;
+    if (typeof window !== 'undefined') {
+      const location = window.location;
 
-    //   // okxDeepLink =
-    //   //   'https://www.okx.com/download?deeplink=' +
-    //   //   encodeURIComponent(
-    //   //     'okx://wallet/dapp/url?dappUrl=' +
-    //   //       encodeURIComponent(`${location.origin}/`),
-    //   //   );
+      // okxDeepLink =
+      //   'https://www.okx.com/download?deeplink=' +
+      //   encodeURIComponent(
+      //     'okx://wallet/dapp/url?dappUrl=' +
+      //       encodeURIComponent(`${location.origin}/`),
+      //   );
 
-    //   // bitgetDeepLink = `bitkeep://bkconnect?action=dapp&url=${encodeURIComponent(`${location.origin}/`)}`;
+      // bitgetDeepLink = `bitkeep://bkconnect?action=dapp&url=${encodeURIComponent(`${location.origin}/`)}`;
 
-    //   metaMaskDeepLink = `https://metamask.app.link/dapp/${location.origin}`;
-    // }
+      metaMaskDeepLink = `https://metamask.app.link/dapp/${location.origin}`;
+    }
 
     let result: DataWallet[] = [
       {
@@ -114,21 +132,21 @@ export const LoginUI = ({
       //   connector: connectors?.[1],
       //   name: 'Injected Wallet',
       // },
-      // {
-      //   id: 'metaMask',
-      //   icon: <ImageBase.IconMetaMask className="w-full h-auto" />,
-      //   type: 'wagmi',
-      //   connector: connectors?.[0],
-      //   name: 'MetaMask',
-      //   deepLink: metaMaskDeepLink,
-      // },
-      // {
-      //   id: 'walletConnect',
-      //   icon: <ImageBase.IconWalletConnect className="w-full h-auto" />,
-      //   type: 'wagmi',
-      //   connector: connectors?.[connectors.length - 1],
-      //   name: 'WalletConnect',
-      // },
+      {
+        id: 'metaMask',
+        icon: IconMetaMask,
+        type: 'wallet',
+        connector: connectors?.[0],
+        name: 'MetaMask',
+        deepLink: metaMaskDeepLink,
+      },
+      {
+        id: 'walletConnect',
+        icon: IconWalletConnect,
+        type: 'wallet',
+        connector: connectors?.[connectors.length - 1],
+        name: 'WalletConnect',
+      },
       // {
       //   id: walletConnectWallet({ projectId }).id,
       //   icon: <ImageBase.IconWalletConnect className="w-full h-auto" />,
@@ -175,6 +193,7 @@ export const LoginUI = ({
           'x',
           'telegram',
           'google',
+          'wallet',
         );
         // listDapp.push('injectedWallet', walletConnectWallet({ projectId }).id);
       }
@@ -184,32 +203,61 @@ export const LoginUI = ({
 
     return result;
   }, [connectors, isMobile, isTablet]);
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [showPassword, setShowPassword] = useState(false);
-  // const { login, isLoading, error } = useLogin();
 
-  // const socialIcons: any = {
-  //   google: (
-  //     <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-  //       <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032 s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2 C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
-  //     </svg>
-  //   ),
-  //   twitter: (
-  //     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-  //       <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-  //     </svg>
-  //   ),
-  //   github: (
-  //     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-  //       <path
-  //         fillRule="evenodd"
-  //         d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V19c0 .27.16.59.67.5C17.14 18.16 20 14.42 20 10A10 10 0 0010 0z"
-  //         clipRule="evenodd"
-  //       />
-  //     </svg>
-  //   ),
-  // };
+  const handleWalletLogin = async () => {
+    try {
+      toggleLoading(true);
+
+      if (typeof window !== 'undefined') {
+        const baseHeaders = {
+          'x-api-key': apiKey,
+          origin: window?.location?.origin,
+        };
+
+        // Get Signature Message
+        const response = await axios<{
+          success: boolean;
+          data: { nonce: string; message: string; expiresIn: number };
+          message: string;
+        }>({
+          baseURL: baseApiUrl,
+          url: '/auth/web3/nonce',
+          method: 'POST' as Method,
+          headers: {
+            ...baseHeaders,
+          },
+          data: {
+            address,
+          },
+        });
+
+        if (response.data?.success && response?.data?.data?.message) {
+          await onSignMessage(
+            { message: response.data.data.message },
+            {
+              onSuccess: async (data) => {
+                if (data && address) {
+                  // Login
+                  await walletLogin({ address, message: data });
+                }
+              },
+              onError: (error) => {
+                setError(error);
+                throw error;
+              },
+            },
+          );
+        } else {
+          throw new Error('Verify address Error');
+        }
+      }
+    } catch (error: any) {
+      setError(error);
+      throw error;
+    } finally {
+      toggleLoading(false);
+    }
+  };
 
   return (
     // <div className={`flex items-center justify-center ${customClassName}`}>
@@ -228,8 +276,7 @@ export const LoginUI = ({
 
             switch (type) {
               case 'google':
-              case 'telegram':
-              case 'twitter':
+              case 'twitter': {
                 return (
                   <ButtonWallet
                     key={key}
@@ -239,37 +286,17 @@ export const LoginUI = ({
                     onClick={async () => {
                       try {
                         let urlCall = `/auth/${type}`;
-
-                        switch (type) {
-                          case 'telegram':
-                            urlCall = '/auth/telegram-login';
-                            break;
-
-                          default:
-                            break;
-                        }
-
-                        const layerGAPI = new LayerGAPI({
-                          apiKey,
-                          secretKey: privateKey,
-                          origin: window?.location?.origin,
-                        });
-
-                        const now = Date.now() - 1000;
-
-                        const signature = await layerGAPI.createSignature(now);
+                        let method: Method = 'GET';
 
                         const headers = {
-                          'x-signature': signature.signature,
-                          'x-timestamp': signature.timestamp,
                           'x-api-key': apiKey,
                           origin: window?.location?.origin,
                         };
 
                         axios({
-                          baseURL: authUrl,
+                          baseURL: baseApiUrl,
                           url: urlCall,
-                          method: 'GET',
+                          method,
                           headers,
                         }).then((res) => {
                           if (res.headers?.location) {
@@ -282,6 +309,79 @@ export const LoginUI = ({
                     }}
                   />
                 );
+              }
+
+              case 'telegram': {
+                if (telegramAuthUrl) {
+                  return (
+                    <ButtonWallet
+                      key={key}
+                      title={item.name ?? ''}
+                      icon={icon}
+                      onClick={async () => {
+                        window.open(telegramAuthUrl, '_self');
+                      }}
+                    />
+                  );
+                } else {
+                  return '';
+                }
+              }
+
+              case 'wallet': {
+                return (
+                  <ButtonWallet
+                    key={key}
+                    title={item.name ?? ''}
+                    icon={icon}
+                    onClick={async () => {
+                      if (item.connector) {
+                        if (
+                          isConnected &&
+                          address &&
+                          currentConnector &&
+                          currentConnector.uid === item.connector.uid
+                        ) {
+                          await handleWalletLogin();
+                        } else {
+                          if ((isMobile || isTablet) && item.deepLink) {
+                            let isInApp = false;
+                            const ua = navigator.userAgent;
+
+                            switch (item.id) {
+                              case 'metaMask':
+                                isInApp = /MetaMask/i.test(ua);
+                                break;
+                              default:
+                                break;
+                            }
+
+                            if (!isInApp) {
+                              window.open(item.deepLink, '_blank');
+                              return;
+                            }
+                          }
+
+                          await disconnectAsync({
+                            connector: item.connector,
+                          });
+
+                          await connectAsync(
+                            { connector: item.connector },
+                            {
+                              onSuccess: async () => {
+                                if (address) {
+                                  await handleWalletLogin();
+                                }
+                              },
+                            },
+                          );
+                        }
+                      }
+                    }}
+                  />
+                );
+              }
 
               default:
                 return '';
